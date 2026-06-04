@@ -384,7 +384,8 @@ function loadLocal() {
   } catch(_) {}
 }
 
-function getApiUrl() { return localStorage.getItem(LS_APIURL)||""; }
+const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbw7CASLDiccwlyRYdufQldXbVdoQVbyzOaU3ZPiJNrSzWtZ-InSPsl0xSRFJfwczYBvkw/exec";
+function getApiUrl() { return localStorage.getItem(LS_APIURL)||DEFAULT_API_URL; }
 function saveApiUrl() {
   const url = document.getElementById("api-url-input").value.trim();
   localStorage.setItem(LS_APIURL, url);
