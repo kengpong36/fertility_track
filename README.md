@@ -21,6 +21,7 @@
 เข้าไปที่ `Settings → Pages → Branch: main → Save`
 
 จากนั้นเข้าใช้งานได้ที่ `https://<your-username>.github.io/<repo-name>/`
+https://kengpong36.github.io/fertility_track/
 
 ### 2. ตั้งค่า Google Sheets (ทางเลือก — สำหรับซิงค์ข้อมูล)
 
