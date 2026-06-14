@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <meta name="theme-color" content="#fdf2f8"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -12,1303 +12,474 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Noto+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script>
-const MANIFEST={name:"Bloom Fertility",short_name:"🌸 Bloom",start_url:"./",display:"standalone",background_color:"#fdf2f8",theme_color:"#fdf2f8",icons:[{src:"https://via.placeholder.com/192/fdf2f8/e879a8?text=🌸",sizes:"192x192",type:"image/png"}]};
-const blob=new Blob([JSON.stringify(MANIFEST)],{type:"application/json"});
-const lnk=document.createElement("link");lnk.rel="manifest";lnk.href=URL.createObjectURL(blob);document.head.appendChild(lnk);
+const M={name:"Bloom Fertility",short_name:"🌸 Bloom",start_url:"./",display:"standalone",background_color:"#fdf2f8",theme_color:"#fdf2f8",icons:[{src:"https://via.placeholder.com/192/fdf2f8/e879a8?text=🌸",sizes:"192x192",type:"image/png"}]};
+const b=new Blob([JSON.stringify(M)],{type:"application/json"});
+const l=document.createElement("link");l.rel="manifest";l.href=URL.createObjectURL(b);document.head.appendChild(l);
 </script>
 <style>
 :root{
-  --rose:       #f472b6;
-  --rose-light: #fce7f3;
-  --rose-mid:   #fbcfe8;
-  --plum:       #c026d3;
-  --plum-soft:  #e879f9;
-  --lavender:   #a78bfa;
-  --mint:       #34d399;
-  --gold:       #f59e0b;
-  --red-soft:   #fb7185;
-  --bg:         #fdf2f8;
-  --bg2:        #fff0f9;
-  --surface:    rgba(255,255,255,0.72);
-  --surface2:   rgba(255,255,255,0.5);
-  --border:     rgba(244,114,182,0.2);
-  --text:       #4a1942;
-  --text2:      #9d4e8c;
-  --text3:      #c084a8;
-  --shadow:     0 4px 24px rgba(192,38,211,0.08);
-  --shadow-lg:  0 8px 40px rgba(192,38,211,0.15);
+  --rose:#f472b6;--rose-l:#fce7f3;--rose-m:#fbcfe8;
+  --plum:#c026d3;--plum-s:#e879f9;--lav:#a78bfa;
+  --mint:#34d399;--gold:#f59e0b;--red:#fb7185;
+  --bg:#fdf2f8;--bg2:#fff0f9;
+  --surf:rgba(255,255,255,0.72);--surf2:rgba(255,255,255,0.5);
+  --bdr:rgba(244,114,182,0.2);
+  --txt:#4a1942;--txt2:#9d4e8c;--txt3:#c084a8;
+  --shd:0 4px 24px rgba(192,38,211,0.08);
+}
+.dark{
+  --bg:#1a0a1e;--bg2:#220d28;
+  --surf:rgba(40,15,50,0.85);--surf2:rgba(40,15,50,0.6);
+  --bdr:rgba(244,114,182,0.15);
+  --txt:#f9d5f0;--txt2:#e4a8d8;--txt3:#b07898;
+  --shd:0 4px 24px rgba(0,0,0,0.3);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overscroll-behavior:none;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Noto Sans Thai',system-ui,sans-serif;
-  min-height:100vh;
-  position:relative;
-  overflow-x:hidden;
-}
+body{background:var(--bg);color:var(--txt);font-family:'Noto Sans Thai',system-ui,sans-serif;min-height:100vh;transition:background .3s,color .3s;}
 button{cursor:pointer;font-family:inherit;}
 input,textarea,select{font-family:inherit;}
 ::-webkit-scrollbar{width:3px;}
-::-webkit-scrollbar-thumb{background:var(--rose-mid);border-radius:4px;}
-
-/* ── Background orbs ── */
+::-webkit-scrollbar-thumb{background:var(--rose-m);border-radius:4px;}
 .orb{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0;animation:drift 8s ease-in-out infinite;}
-.orb1{width:300px;height:300px;background:radial-gradient(circle,rgba(244,114,182,.25),transparent 70%);top:-80px;right:-60px;animation-delay:0s;}
-.orb2{width:250px;height:250px;background:radial-gradient(circle,rgba(167,139,250,.2),transparent 70%);bottom:100px;left:-80px;animation-delay:-3s;}
-.orb3{width:180px;height:180px;background:radial-gradient(circle,rgba(249,168,212,.3),transparent 70%);top:40%;right:-40px;animation-delay:-5s;}
+.orb1{width:300px;height:300px;background:radial-gradient(circle,rgba(244,114,182,.2),transparent 70%);top:-80px;right:-60px;}
+.orb2{width:250px;height:250px;background:radial-gradient(circle,rgba(167,139,250,.15),transparent 70%);bottom:100px;left:-80px;animation-delay:-3s;}
+.orb3{width:180px;height:180px;background:radial-gradient(circle,rgba(249,168,212,.25),transparent 70%);top:40%;right:-40px;animation-delay:-5s;}
 @keyframes drift{0%,100%{transform:translate(0,0);}50%{transform:translate(12px,18px);}}
-
-/* ── Petals ── */
 .petal{position:fixed;pointer-events:none;z-index:0;animation:petalFall linear infinite;opacity:0;}
-@keyframes petalFall{
-  0%{transform:translateY(-20px) rotate(0deg) scale(0.8);opacity:0;}
-  10%{opacity:0.6;}
-  90%{opacity:0.3;}
-  100%{transform:translateY(110vh) rotate(720deg) scale(0.6);opacity:0;}
-}
-
-/* ── Header ── */
-#header{
-  position:sticky;top:0;z-index:50;
-  padding:env(safe-area-inset-top,0) 0 0;
-  background:rgba(253,242,248,0.85);
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border);
-}
-#header-inner{display:flex;align-items:center;gap:10px;padding:12px 16px;}
-#header-logo{font-size:26px;animation:spin 20s linear infinite;}
+@keyframes petalFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}10%{opacity:.5;}90%{opacity:.2;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+#header{position:sticky;top:0;z-index:50;padding:env(safe-area-inset-top,0) 0 0;background:rgba(253,242,248,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);transition:background .3s;}
+.dark #header{background:rgba(26,10,30,0.88);}
+#header-inner{display:flex;align-items:center;gap:10px;padding:11px 14px;}
+#header-logo{font-size:24px;animation:spin 20s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-#header-title{flex:1;}
-#header-title h1{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);letter-spacing:.3px;}
-#header-title p{font-size:10px;color:var(--text3);margin-top:1px;}
-#sync-btn{
-  padding:6px 14px;
-  background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));
-  border:1px solid rgba(244,114,182,.3);
-  border-radius:20px;color:var(--rose);font-size:11px;font-weight:600;
-  transition:all .2s;
-}
-#sync-btn:active{transform:scale(.95);}
+#header-title h1{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;}
+#header-title p{font-size:10px;color:var(--txt3);margin-top:1px;}
+.hdr-btn{padding:5px 11px;background:rgba(244,114,182,.12);border:1px solid rgba(244,114,182,.25);border-radius:16px;color:var(--rose);font-size:11px;font-weight:600;}
 #sync-btn.syncing{animation:pulse 1s infinite;}
 #sync-btn.error{background:rgba(251,113,133,.1);border-color:rgba(251,113,133,.3);color:#fb7185;}
 #sync-btn.ok{background:rgba(52,211,153,.1);border-color:rgba(52,211,153,.3);color:#34d399;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-
-/* ── Today pill ── */
-#today-type-pill{
-  margin:0 16px 10px;
-  padding:10px 16px;
-  border-radius:16px;
-  display:flex;align-items:center;gap:10px;
-  backdrop-filter:blur(10px);
-  animation:slideIn .4s ease;
-}
+#today-widget{margin:10px 14px 0;padding:12px 14px;border-radius:18px;display:flex;align-items:center;gap:12px;backdrop-filter:blur(10px);animation:slideIn .4s ease;}
 @keyframes slideIn{from{transform:translateY(-8px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-
-/* ── Tabs ── */
-#tabs{
-  display:flex;
-  margin:0 16px 14px;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;padding:4px;
-  box-shadow:var(--shadow);
-  position:relative;z-index:1;
-}
-.tab{
-  flex:1;padding:9px 4px;
-  background:transparent;border:none;
-  border-radius:12px;
-  color:var(--text3);font-size:17px;
-  transition:all .25s cubic-bezier(.34,1.56,.64,1);
-}
-.tab.active{
-  background:linear-gradient(135deg,var(--rose),var(--plum-soft));
-  color:#fff;
-  box-shadow:0 4px 12px rgba(244,114,182,.4);
-  transform:scale(1.05);
-}
-
-/* ── Content ── */
+.tw-info{flex:1;}.tw-type{font-size:13px;font-weight:700;}.tw-date{font-size:10px;color:var(--txt3);margin-top:1px;}
+.tw-stat{text-align:right;}.tw-stat-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;}.tw-stat-lbl{font-size:9px;color:var(--txt3);}
+#pin-overlay{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.pin-dots{display:flex;gap:12px;margin:8px 0;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--rose);transition:background .2s;}
+.pin-dot.filled{background:var(--rose);}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:240px;}
+.pin-key{padding:16px;background:var(--surf);border:1px solid var(--bdr);border-radius:16px;font-size:20px;font-weight:600;color:var(--txt);box-shadow:var(--shd);}
+.pin-key:active{transform:scale(.93);}
+#tabs{display:flex;margin:10px 14px 12px;background:var(--surf);border:1px solid var(--bdr);border-radius:16px;padding:4px;box-shadow:var(--shd);position:relative;z-index:1;overflow-x:auto;}
+#tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:36px;padding:8px 4px;background:transparent;border:none;border-radius:10px;color:var(--txt3);font-size:16px;transition:all .25s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;}
+.tab.active{background:linear-gradient(135deg,var(--rose),var(--plum-s));color:#fff;box-shadow:0 4px 12px rgba(244,114,182,.4);transform:scale(1.05);}
 #content{max-width:480px;width:100%;margin:0 auto;padding:0 14px 90px;position:relative;z-index:1;}
-
-/* ── Cards ── */
-.card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:20px;padding:16px;
-  margin-bottom:12px;
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(10px);
-  animation:fadeUp .3s ease;
-}
+.card{background:var(--surf);border:1px solid var(--bdr);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:var(--shd);backdrop-filter:blur(10px);animation:fadeUp .3s ease;}
 @keyframes fadeUp{from{transform:translateY(10px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.card-title{
-  font-family:'Playfair Display',serif;
-  font-size:13px;font-weight:600;
-  color:var(--text2);margin-bottom:12px;
-  display:flex;align-items:center;gap:6px;
-}
-
-/* ── Cycle countdown card ── */
-#cycle-card{
-  background:linear-gradient(135deg,rgba(244,114,182,.12),rgba(167,139,250,.12));
-  border-color:rgba(244,114,182,.25);
-}
+.card-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;color:var(--txt2);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .cycle-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.cycle-cell{
-  background:rgba(255,255,255,.6);
-  border:1px solid rgba(244,114,182,.15);
-  border-radius:14px;padding:10px 6px;text-align:center;
-}
-.cycle-cell .cv{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;}
-.cycle-cell .cl{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.3;}
-
-/* ── Fertile banner ── */
-#fertile-card{
-  background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(245,158,11,.1));
-  border-color:rgba(52,211,153,.3);
-}
+.cyc-cell{background:rgba(255,255,255,.55);border:1px solid var(--bdr);border-radius:14px;padding:10px 6px;text-align:center;}
+.dark .cyc-cell{background:rgba(255,255,255,.07);}
+.cyc-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+.cyc-lbl{font-size:9px;color:var(--txt3);margin-top:2px;line-height:1.3;}
+.fertile-card{background:linear-gradient(135deg,rgba(52,211,153,.1),rgba(245,158,11,.1));border-color:rgba(52,211,153,.3);}
 .fertile-inner{display:flex;align-items:center;gap:12px;}
-.fertile-days{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:#059669;line-height:1;}
-.fertile-sub{font-size:11px;color:var(--text3);margin-top:3px;}
-.ov-pill{
-  margin-left:auto;
-  background:rgba(245,158,11,.15);
-  border:1px solid rgba(245,158,11,.3);
-  border-radius:12px;padding:8px 14px;text-align:center;
-  min-width:70px;
-}
+.fertile-days{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:#059669;line-height:1;}
+.fertile-sub{font-size:11px;color:var(--txt3);margin-top:3px;}
+.ov-pill{margin-left:auto;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:8px 14px;text-align:center;min-width:68px;}
 .ov-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);}
-.ov-lbl{font-size:9px;color:var(--text3);}
-
-/* ── Late banner ── */
-.late-pill{
-  margin-top:10px;
-  background:rgba(52,211,153,.1);
-  border:1px solid rgba(52,211,153,.3);
-  border-radius:12px;padding:10px 12px;
-  font-size:12px;color:#059669;
-  display:flex;align-items:center;gap:6px;
-}
-
-/* ── Legend ── */
+.ov-lbl{font-size:9px;color:var(--txt3);}
+.late-pill{margin-top:10px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:12px;padding:10px 12px;font-size:12px;color:#059669;display:flex;align-items:center;gap:6px;}
 #legend{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
-.leg{
-  display:flex;align-items:center;gap:5px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:20px;padding:4px 10px;
-  font-size:10px;color:var(--text2);
-  backdrop-filter:blur(6px);
-}
+.leg{display:flex;align-items:center;gap:5px;background:var(--surf2);border:1px solid var(--bdr);border-radius:20px;padding:4px 10px;font-size:10px;color:var(--txt2);}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-
-/* ── Month nav ── */
 #month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.nav-btn{
-  background:var(--surface);border:1px solid var(--border);
-  color:var(--rose);border-radius:12px;
-  padding:7px 14px;font-size:16px;font-weight:700;
-  box-shadow:var(--shadow);transition:transform .15s;
-}
+.nav-btn{background:var(--surf);border:1px solid var(--bdr);color:var(--rose);border-radius:12px;padding:7px 14px;font-size:16px;font-weight:700;box-shadow:var(--shd);}
 .nav-btn:active{transform:scale(.9);}
-#month-label{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text);}
-
-/* ── Calendar ── */
-#cal-wrap{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:20px;padding:14px;
-  box-shadow:var(--shadow);margin-bottom:8px;
-}
+#month-label{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--txt);}
+#cal-wrap{background:var(--surf);border:1px solid var(--bdr);border-radius:20px;padding:14px;box-shadow:var(--shd);margin-bottom:8px;}
 #cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.cal-head{text-align:center;font-size:9px;color:var(--text3);font-weight:600;padding:4px 0;letter-spacing:.5px;}
-.cal-day{
-  aspect-ratio:1;border:2px solid transparent;border-radius:50%;
-  font-size:11px;font-weight:500;
-  background:rgba(255,255,255,.5);color:var(--text2);
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:1px;
-  position:relative;overflow:hidden;
-  transition:transform .15s cubic-bezier(.34,1.56,.64,1),box-shadow .15s;
-}
+.cal-head{text-align:center;font-size:9px;color:var(--txt3);font-weight:600;padding:4px 0;}
+.cal-day{aspect-ratio:1;border:2px solid transparent;border-radius:50%;font-size:11px;font-weight:500;background:rgba(255,255,255,.5);color:var(--txt2);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1px;position:relative;overflow:hidden;transition:transform .15s cubic-bezier(.34,1.56,.64,1);}
+.dark .cal-day{background:rgba(255,255,255,.07);}
 .cal-day:active{transform:scale(1.2);}
 .cal-day.today{border-color:var(--rose);box-shadow:0 0 0 2px rgba(244,114,182,.3);}
 .cal-day.period-start{box-shadow:0 0 0 3px rgba(251,113,133,.4);}
 .cal-day .dots{position:absolute;bottom:2px;display:flex;gap:2px;}
 .cal-day .dot{width:3px;height:3px;border-radius:50%;}
-.hint-text{font-size:10px;color:var(--text3);text-align:center;margin:4px 0 10px;}
-
-/* ── Sliders ── */
+.hint-text{font-size:10px;color:var(--txt3);text-align:center;margin:4px 0 10px;}
 .slider-wrap{margin-bottom:10px;}
-.slider-label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px;font-weight:500;}
-input[type=range]{
-  width:100%;height:6px;
-  -webkit-appearance:none;appearance:none;
-  background:linear-gradient(to right,var(--rose),var(--plum-soft));
-  border-radius:6px;outline:none;
-}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;width:20px;height:20px;
-  background:white;border:2px solid var(--rose);
-  border-radius:50%;box-shadow:0 2px 8px rgba(244,114,182,.4);
-  cursor:pointer;
-}
-.slider-hint{display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:2px;}
-
-/* ── Modal ── */
-#modal-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(74,25,66,.4);
-  backdrop-filter:blur(8px);
-  display:flex;align-items:flex-end;justify-content:center;
-}
-#modal{
-  background:linear-gradient(180deg,#fff9fd 0%,#fdf2f8 100%);
-  border-radius:28px 28px 0 0;
-  padding:8px 18px 40px;
-  width:100%;max-width:480px;
-  max-height:90vh;overflow-y:auto;
-  box-shadow:0 -8px 40px rgba(192,38,211,.2);
-  animation:modalUp .3s cubic-bezier(.34,1.56,.64,1);
-}
+.slider-label{font-size:12px;color:var(--txt2);display:block;margin-bottom:4px;font-weight:500;}
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,var(--rose),var(--plum-s));border-radius:6px;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:white;border:2px solid var(--rose);border-radius:50%;box-shadow:0 2px 8px rgba(244,114,182,.4);cursor:pointer;}
+.slider-hint{display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);margin-top:2px;}
+.reminder-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.55);border:1px solid var(--bdr);border-radius:14px;margin-bottom:8px;}
+.dark .reminder-row{background:rgba(255,255,255,.07);}
+.rem-icon{font-size:20px;width:28px;text-align:center;}
+.rem-info{flex:1;}.rem-title{font-size:13px;font-weight:600;color:var(--txt);}.rem-sub{font-size:10px;color:var(--txt3);margin-top:1px;}
+.rem-time{padding:5px 8px;background:var(--rose-l);border:1px solid var(--bdr);border-radius:8px;color:var(--rose);font-size:12px;font-weight:600;}
+.dark .rem-time{background:rgba(244,114,182,.15);}
+.rem-toggle{width:44px;height:24px;border-radius:12px;position:relative;border:none;transition:background .3s;flex-shrink:0;}
+.rem-toggle.on{background:linear-gradient(135deg,var(--rose),var(--plum-s));}
+.rem-toggle.off{background:#d1d5db;}
+.rem-toggle::after{content:'';position:absolute;top:3px;width:18px;height:18px;background:white;border-radius:50%;transition:left .3s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.rem-toggle.on::after{left:23px;}.rem-toggle.off::after{left:3px;}
+.vit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.vit-card{padding:12px;background:rgba(255,255,255,.6);border:1px solid var(--bdr);border-radius:14px;text-align:center;transition:all .2s;}
+.dark .vit-card{background:rgba(255,255,255,.07);}
+.vit-card.taken{background:linear-gradient(135deg,rgba(52,211,153,.12),rgba(52,211,153,.06));border-color:rgba(52,211,153,.3);}
+.vit-card:active{transform:scale(.96);}
+.vit-emoji{font-size:24px;margin-bottom:4px;}.vit-name{font-size:12px;font-weight:600;color:var(--txt);}.vit-dose{font-size:10px;color:var(--txt3);margin-top:2px;}.vit-check{font-size:16px;margin-top:4px;}
+.preg-row{display:flex;gap:8px;margin-bottom:8px;}
+.preg-btn{flex:1;padding:12px 8px;border-radius:14px;border:1.5px solid var(--bdr);background:var(--surf2);color:var(--txt2);font-size:12px;font-weight:500;transition:all .2s;text-align:center;}
+.preg-btn:active{transform:scale(.96);}
+.preg-btn.neg{background:rgba(100,116,139,.1);border-color:#94a3b8;color:#64748b;}
+.preg-btn.pos{background:rgba(52,211,153,.12);border-color:#34d399;color:#059669;}
+.preg-btn.faint{background:rgba(245,158,11,.1);border-color:#f59e0b;color:#d97706;}
+.preg-hist-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(255,255,255,.5);border:1px solid var(--bdr);border-radius:10px;font-size:12px;margin-bottom:5px;}
+.dark .preg-hist-row{background:rgba(255,255,255,.07);}
+#bbt-canvas-wrap{height:155px;margin-bottom:8px;position:relative;}
+#weight-canvas-wrap{height:140px;margin-bottom:8px;position:relative;}
+canvas{width:100%;height:100%;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.stat-cell{background:rgba(255,255,255,.6);border:1px solid var(--bdr);border-radius:15px;padding:11px;text-align:center;}
+.dark .stat-cell{background:rgba(255,255,255,.07);}
+.stat-cell .sv{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;}.stat-cell .sl{font-size:9px;color:var(--txt3);margin-top:2px;}
+.sym-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sym-bar-row .emoji{font-size:14px;width:20px;}.sym-bar-row .name{font-size:11px;color:var(--txt2);flex:1;}
+.sym-bar-track{width:80px;height:5px;background:rgba(244,114,182,.15);border-radius:3px;overflow:hidden;}
+.sym-bar-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(--rose),var(--plum-s));}
+.sym-bar-count{font-size:10px;color:var(--txt3);width:18px;text-align:right;font-weight:600;}
+.period-row{display:flex;justify-content:space-between;align-items:center;padding:8px 11px;background:rgba(255,255,255,.55);border:1px solid var(--bdr);border-radius:11px;font-size:12px;margin-bottom:5px;}
+.dark .period-row{background:rgba(255,255,255,.07);}
+.del-btn{background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);color:#fb7185;border-radius:8px;padding:3px 9px;font-size:10px;font-weight:600;}
+.tip-card{background:var(--surf);border:1px solid var(--bdr);border-radius:17px;padding:14px;margin-bottom:10px;box-shadow:var(--shd);}
+.tip-title{font-family:'Playfair Display',serif;font-size:15px;margin-bottom:9px;}
+.tip-card ul{padding-left:16px;}.tip-card li{font-size:12px;color:var(--txt2);line-height:1.8;margin-bottom:2px;}
+.disclaimer{background:rgba(251,113,133,.06);border:1px solid rgba(251,113,133,.15);border-radius:12px;padding:10px 12px;font-size:11px;color:var(--txt3);}
+.cf-manage-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.cf-manage-row input{flex:1;padding:9px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt);font-size:13px;outline:none;}
+.dark .cf-manage-row input{background:rgba(255,255,255,.1);}
+.cf-manage-row input:focus{border-color:var(--rose);}
+.cf-type-sel{padding:9px 8px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt2);font-size:12px;outline:none;}
+.dark .cf-type-sel{background:rgba(255,255,255,.1);}
+.cf-del-btn{width:34px;height:34px;background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);border-radius:10px;color:#fb7185;font-size:16px;flex-shrink:0;}
+.cf-add-btn{width:100%;padding:10px;background:linear-gradient(135deg,rgba(244,114,182,.12),rgba(167,139,250,.1));border:1.5px dashed rgba(244,114,182,.4);border-radius:12px;color:var(--rose);font-size:13px;font-weight:600;margin-top:4px;}
+.cf-field-wrap{margin-bottom:10px;}
+.cf-field-label{font-size:11px;color:var(--txt3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px;}
+.cf-input{width:100%;padding:10px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt);font-size:14px;outline:none;}
+.dark .cf-input{background:rgba(255,255,255,.1);}
+.cf-input:focus{border-color:var(--rose);}
+.cf-check-btn{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.7);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt2);font-size:13px;font-weight:500;transition:all .2s;width:100%;}
+.dark .cf-check-btn{background:rgba(255,255,255,.07);}
+.cf-check-btn.checked{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.12));border-color:var(--rose);color:var(--rose);}
+.cf-check-icon{width:20px;height:20px;border-radius:6px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.bq-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;}
+.bq-scroll::-webkit-scrollbar{display:none;}
+.bq-btn{flex-shrink:0;padding:6px 12px;background:var(--surf2);border:1.5px solid var(--bdr);border-radius:20px;color:var(--txt2);font-size:11px;transition:all .2s;}
+.bq-btn.selected{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.12));border-color:var(--rose);color:var(--rose);font-weight:600;}
+.bf-date-input{width:100%;padding:11px 14px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:12px;color:var(--txt);font-size:15px;outline:none;margin-bottom:10px;}
+.dark .bf-date-input{background:rgba(255,255,255,.1);}
+.bf-date-input:focus{border-color:var(--rose);}
+.bf-preview-item{padding:7px 10px;background:rgba(255,255,255,.55);border:1px solid var(--bdr);border-radius:10px;font-size:12px;color:var(--txt2);margin-bottom:5px;}
+.dark .bf-preview-item{background:rgba(255,255,255,.07);}
+#modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(74,25,66,.45);backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;}
+#modal{background:linear-gradient(180deg,#fff9fd 0%,#fdf2f8 100%);border-radius:28px 28px 0 0;padding:8px 18px 40px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(192,38,211,.2);animation:modalUp .3s cubic-bezier(.34,1.56,.64,1);}
+.dark #modal{background:linear-gradient(180deg,#2a0f35 0%,#1a0a1e 100%);}
 @keyframes modalUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-#modal-handle{
-  width:40px;height:4px;
-  background:var(--rose-mid);border-radius:2px;
-  margin:8px auto 16px;
-}
-.modal-date-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;}
-.modal-date-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--text);}
-.modal-type-badge{font-size:11px;margin-top:4px;}
-.btn-period-toggle{
-  padding:7px 12px;border:none;border-radius:12px;
-  font-size:11px;font-weight:600;
-  transition:all .2s;
-}
-.btn-period-toggle:active{transform:scale(.95);}
-
-.modal-label{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:7px;}
-.modal-section{margin-bottom:16px;}
-
-#bbt-input{
-  width:100%;padding:12px 14px;
-  background:rgba(255,255,255,.8);
-  border:1.5px solid var(--border);border-radius:14px;
-  color:var(--text);font-size:18px;outline:none;
-  transition:border-color .2s;
-}
-#bbt-input:focus{border-color:var(--rose);}
-#bbt-hint{font-size:11px;margin-top:4px;min-height:16px;}
-
+#modal-handle{width:40px;height:4px;background:var(--rose-m);border-radius:2px;margin:8px auto 14px;}
+.modal-label{font-size:11px;color:var(--txt3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:6px;}
+.modal-section{margin-bottom:14px;}
+.m-input{width:100%;padding:11px 13px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:13px;color:var(--txt);font-size:16px;outline:none;}
+.dark .m-input{background:rgba(255,255,255,.1);}
+.m-input:focus{border-color:var(--rose);}
 .lh-grid{display:flex;gap:5px;}
-.lh-btn{
-  flex:1;padding:9px 4px;
-  background:rgba(255,255,255,.7);
-  border:1.5px solid rgba(244,114,182,.2);
-  border-radius:12px;color:var(--text3);font-size:10px;font-weight:500;
-  transition:all .2s;
-}
-.lh-btn:active{transform:scale(.95);}
+.lh-btn{flex:1;padding:9px 3px;background:rgba(255,255,255,.7);border:1.5px solid rgba(244,114,182,.2);border-radius:12px;color:var(--txt3);font-size:10px;font-weight:500;transition:all .2s;}
+.dark .lh-btn{background:rgba(255,255,255,.07);}
 .lh-btn.active-neg{background:rgba(100,116,139,.1);border-color:#94a3b8;color:#64748b;}
 .lh-btn.active-pos{background:rgba(52,211,153,.12);border-color:#34d399;color:#059669;font-weight:700;}
 .lh-btn.active-peak{background:rgba(245,158,11,.12);border-color:#f59e0b;color:#d97706;font-weight:700;}
-
 .sym-grid{display:flex;flex-wrap:wrap;gap:6px;}
-.sym-btn{
-  padding:6px 11px;
-  background:rgba(255,255,255,.7);
-  border:1.5px solid rgba(244,114,182,.2);
-  border-radius:20px;color:var(--text3);font-size:11px;
-  transition:all .2s;
-}
-.sym-btn:active{transform:scale(.95);}
-.sym-btn.active{
-  background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));
-  border-color:var(--rose);color:var(--rose);font-weight:600;
-}
-
-#note-input{
-  width:100%;padding:12px 14px;
-  background:rgba(255,255,255,.8);
-  border:1.5px solid var(--border);border-radius:14px;
-  color:var(--text);font-size:13px;outline:none;resize:none;
-  transition:border-color .2s;
-}
+.sym-btn{padding:5px 10px;background:rgba(255,255,255,.7);border:1.5px solid rgba(244,114,182,.2);border-radius:20px;color:var(--txt3);font-size:11px;transition:all .2s;}
+.dark .sym-btn{background:rgba(255,255,255,.07);}
+.sym-btn.active{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.12));border-color:var(--rose);color:var(--rose);font-weight:600;}
+#note-input{width:100%;padding:10px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:13px;color:var(--txt);font-size:13px;outline:none;resize:none;}
+.dark #note-input{background:rgba(255,255,255,.1);}
 #note-input:focus{border-color:var(--rose);}
-
-.modal-actions{display:flex;gap:8px;margin-top:18px;}
-.btn-cancel{
-  flex:1;padding:13px;
-  background:rgba(255,255,255,.7);
-  border:1.5px solid var(--border);
-  border-radius:14px;color:var(--text3);font-size:14px;
-  transition:all .2s;
-}
-.btn-save{
-  flex:2;padding:13px;
-  background:linear-gradient(135deg,var(--rose),var(--plum-soft));
-  border:none;border-radius:14px;
-  color:#fff;font-size:14px;font-weight:700;
-  box-shadow:0 4px 16px rgba(244,114,182,.4);
-  transition:all .2s;
-}
-.btn-save:active{transform:scale(.97);}
-
-/* ── Stat grid ── */
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.stat-cell{
-  background:rgba(255,255,255,.6);border:1px solid var(--border);
-  border-radius:16px;padding:12px;text-align:center;
-}
-.stat-cell .sv{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;}
-.stat-cell .sl{font-size:9px;color:var(--text3);margin-top:3px;}
-
-/* ── BBT chart ── */
-#bbt-canvas-wrap{height:160px;margin-bottom:8px;position:relative;}
-canvas{width:100%;height:100%;}
-
-/* ── Sym bars ── */
-.sym-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
-.sym-bar-row .emoji{font-size:15px;width:22px;}
-.sym-bar-row .name{font-size:11px;color:var(--text2);flex:1;}
-.sym-bar-track{width:80px;height:5px;background:rgba(244,114,182,.15);border-radius:3px;overflow:hidden;}
-.sym-bar-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(--rose),var(--plum-soft));}
-.sym-bar-count{font-size:10px;color:var(--text3);width:18px;text-align:right;font-weight:600;}
-
-/* ── Period history ── */
-.period-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:9px 12px;
-  background:rgba(255,255,255,.6);border:1px solid var(--border);
-  border-radius:12px;font-size:12px;margin-bottom:6px;
-}
-.del-btn{
-  background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);
-  color:#fb7185;border-radius:8px;padding:3px 10px;font-size:10px;
-  font-weight:600;
-}
-
-/* ── Tips ── */
-.tip-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:18px;padding:16px;margin-bottom:10px;
-  box-shadow:var(--shadow);
-}
-.tip-title{font-family:'Playfair Display',serif;font-size:15px;margin-bottom:10px;}
-.tip-card ul{padding-left:16px;}
-.tip-card li{font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:2px;}
-
-/* ── Setup ── */
-#api-url-input{
-  width:100%;padding:12px 14px;
-  background:rgba(255,255,255,.8);
-  border:1.5px solid var(--border);border-radius:14px;
-  color:var(--text);font-size:12px;outline:none;margin-bottom:8px;
-}
-.btn-primary{
-  width:100%;padding:12px;
-  background:linear-gradient(135deg,var(--rose),var(--plum-soft));
-  border:none;border-radius:14px;
-  color:#fff;font-size:13px;font-weight:700;
-  box-shadow:0 4px 16px rgba(244,114,182,.35);
-}
-
-/* ── LH history ── */
-.lh-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 12px;
-  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);
-  border-radius:12px;margin-bottom:6px;font-size:12px;
-}
-
-/* ── BBT tips list ── */
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
+.btn-cancel{flex:1;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid var(--bdr);border-radius:13px;color:var(--txt3);font-size:14px;}
+.dark .btn-cancel{background:rgba(255,255,255,.1);}
+.btn-save{flex:2;padding:12px;background:linear-gradient(135deg,var(--rose),var(--plum-s));border:none;border-radius:13px;color:#fff;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(244,114,182,.4);}
+.btn-period-toggle{padding:7px 11px;border:none;border-radius:11px;font-size:11px;font-weight:600;}
+.btn-primary{width:100%;padding:12px;background:linear-gradient(135deg,var(--rose),var(--plum-s));border:none;border-radius:13px;color:#fff;font-size:13px;font-weight:700;box-shadow:0 4px 14px rgba(244,114,182,.35);}
+.export-btn{width:100%;padding:12px;border:none;border-radius:14px;font-size:14px;font-weight:700;margin-bottom:8px;}
+.exp-csv{background:linear-gradient(135deg,rgba(52,211,153,.2),rgba(52,211,153,.1));color:#059669;border:1px solid rgba(52,211,153,.3);}
+.exp-pdf{background:linear-gradient(135deg,rgba(244,114,182,.2),rgba(167,139,250,.15));color:var(--rose);border:1px solid rgba(244,114,182,.3);}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;background:rgba(255,255,255,.55);border:1px solid var(--bdr);border-radius:14px;margin-bottom:8px;}
+.dark .settings-row{background:rgba(255,255,255,.07);}
+.settings-row-label{font-size:13px;color:var(--txt);font-weight:500;}.settings-row-sub{font-size:10px;color:var(--txt3);margin-top:1px;}
+.lh-hist-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:11px;margin-bottom:5px;font-size:12px;}
 .bbt-tip-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;}
-.bbt-tip-num{
-  width:22px;height:22px;border-radius:50%;
-  background:linear-gradient(135deg,var(--rose),var(--plum-soft));
-  color:#fff;font-size:10px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-
-/* ── Toast ── */
-#toast{
-  position:fixed;bottom:88px;left:50%;transform:translateX(-50%);
-  background:var(--text);color:#fff;
-  border-radius:20px;padding:9px 18px;
-  font-size:12px;z-index:300;
-  opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;
-  box-shadow:0 4px 16px rgba(74,25,66,.3);
-}
+.bbt-tip-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--rose),var(--plum-s));color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pin-setup{display:flex;gap:6px;}
+.pin-setup input{flex:1;padding:10px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:11px;color:var(--txt);font-size:18px;text-align:center;outline:none;letter-spacing:8px;}
+.dark .pin-setup input{background:rgba(255,255,255,.1);}
+#api-url-input{width:100%;padding:11px 13px;background:rgba(255,255,255,.8);border:1.5px solid var(--bdr);border-radius:13px;color:var(--txt);font-size:12px;outline:none;margin-bottom:8px;}
+.dark #api-url-input{background:rgba(255,255,255,.1);}
+#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;border-radius:20px;padding:9px 18px;font-size:12px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;box-shadow:0 4px 16px rgba(74,25,66,.3);}
 #toast.show{opacity:1;}
-
-
-/* ── Custom Fields ── */
-.cf-manage-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.cf-manage-row input{flex:1;padding:9px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:13px;outline:none;}
-.cf-manage-row input:focus{border-color:var(--rose);}
-.cf-type-sel{padding:9px 8px;background:rgba(255,255,255,.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text2);font-size:12px;outline:none;}
-.cf-del-btn{width:34px;height:34px;background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);border-radius:10px;color:#fb7185;font-size:16px;flex-shrink:0;}
-.cf-add-btn{width:100%;padding:10px;background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));border:1.5px dashed rgba(244,114,182,.4);border-radius:12px;color:var(--rose);font-size:13px;font-weight:600;margin-top:4px;}
-.cf-field-wrap{margin-bottom:10px;}
-.cf-field-label{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;display:block;margin-bottom:5px;}
-.cf-text-input{width:100%;padding:10px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:14px;outline:none;}
-.cf-text-input:focus{border-color:var(--rose);}
-.cf-num-wrap{display:flex;align-items:center;gap:8px;}
-.cf-num-input{flex:1;padding:10px 12px;background:rgba(255,255,255,.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:16px;outline:none;}
-.cf-num-input:focus{border-color:var(--rose);}
-.cf-check-btn{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.7);border:1.5px solid var(--border);border-radius:12px;color:var(--text2);font-size:13px;font-weight:500;transition:all .2s;}
-.cf-check-btn.checked{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));border-color:var(--rose);color:var(--rose);}
-.cf-check-icon{width:20px;height:20px;border-radius:6px;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.cf-history-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(255,255,255,.5);border:1px solid var(--border);border-radius:10px;font-size:12px;margin-bottom:4px;}
-
-
-/* ── Backfill ── */
-.backfill-date-input{width:100%;padding:11px 14px;background:rgba(255,255,255,.8);border:1.5px solid var(--border);border-radius:12px;color:var(--text);font-size:15px;outline:none;margin-bottom:10px;}
-.backfill-date-input:focus{border-color:var(--rose);}
-.backfill-quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
-.bq-btn{padding:5px 11px;background:rgba(255,255,255,.7);border:1.5px solid var(--border);border-radius:20px;color:var(--text2);font-size:11px;transition:all .2s;}
-.bq-btn:active{transform:scale(.95);}
-.bq-btn.selected{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(167,139,250,.15));border-color:var(--rose);color:var(--rose);font-weight:600;}
-.backfill-go{width:100%;padding:11px;background:linear-gradient(135deg,var(--rose),var(--plum-soft));border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;box-shadow:0 4px 14px rgba(244,114,182,.35);margin-top:4px;}
-
-/* ── Disclaimer ── */
-.disclaimer{
-  background:rgba(251,113,133,.06);border:1px solid rgba(251,113,133,.15);
-  border-radius:12px;padding:10px 12px;
-  font-size:11px;color:var(--text3);
-}
 </style>
 </head>
 <body>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
 
-<!-- Background effects -->
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
-<div class="orb orb3"></div>
+<div id="pin-overlay" style="display:none">
+  <div style="font-size:40px;margin-bottom:8px">🌸</div>
+  <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--txt)">Bloom</div>
+  <div style="font-size:12px;color:var(--txt3);margin-bottom:16px">ใส่ PIN เพื่อเข้าใช้งาน</div>
+  <div class="pin-dots" id="pin-dots"><div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div><div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div></div>
+  <div id="pin-error" style="font-size:11px;color:#fb7185;height:16px;margin-bottom:4px"></div>
+  <div class="pin-pad">
+    <button class="pin-key" onclick="pinPress('1')">1</button><button class="pin-key" onclick="pinPress('2')">2</button><button class="pin-key" onclick="pinPress('3')">3</button>
+    <button class="pin-key" onclick="pinPress('4')">4</button><button class="pin-key" onclick="pinPress('5')">5</button><button class="pin-key" onclick="pinPress('6')">6</button>
+    <button class="pin-key" onclick="pinPress('7')">7</button><button class="pin-key" onclick="pinPress('8')">8</button><button class="pin-key" onclick="pinPress('9')">9</button>
+    <button class="pin-key" onclick="pinPress('C')" style="font-size:13px;color:#fb7185">ล้าง</button><button class="pin-key" onclick="pinPress('0')">0</button><button class="pin-key" onclick="pinPress('DEL')" style="font-size:16px">⌫</button>
+  </div>
+</div>
 
 <div id="app">
-  <!-- Header -->
   <div id="header">
     <div id="header-inner">
       <div id="header-logo">🌸</div>
-      <div id="header-title">
-        <h1>Bloom</h1>
-        <p>ติดตามรอบเดือน · เพิ่มโอกาสมีลูก</p>
+      <div id="header-title"><h1>Bloom</h1><p>ติดตามรอบเดือน · เพิ่มโอกาสมีลูก</p></div>
+      <div style="display:flex;gap:6px;margin-left:auto">
+        <button class="hdr-btn" onclick="toggleDark()" id="dark-btn">🌙</button>
+        <button class="hdr-btn" id="sync-btn" onclick="syncNow()">☁️</button>
       </div>
-      <button id="sync-btn" onclick="syncNow()">☁️ ซิงค์</button>
     </div>
+    <div id="today-widget" style="display:none"></div>
+    <div style="height:10px"></div>
   </div>
 
   <div id="content">
-    <!-- Today pill -->
-    <div id="today-type-pill" style="display:none"></div>
-
-    <!-- Tabs -->
     <div id="tabs">
       <button class="tab active" onclick="switchTab('calendar')" id="tab-calendar">📅</button>
       <button class="tab" onclick="switchTab('bbt')" id="tab-bbt">🌡️</button>
       <button class="tab" onclick="switchTab('stats')" id="tab-stats">📊</button>
-      <button class="tab" onclick="switchTab('tips')" id="tab-tips">💡</button>
+      <button class="tab" onclick="switchTab('reminder')" id="tab-reminder">🔔</button>
+      <button class="tab" onclick="switchTab('vitamin')" id="tab-vitamin">💊</button>
+      <button class="tab" onclick="switchTab('pregtest')" id="tab-pregtest">🤰</button>
       <button class="tab" onclick="switchTab('backfill')" id="tab-backfill">🕐</button>
       <button class="tab" onclick="switchTab('custom')" id="tab-custom">🗂️</button>
+      <button class="tab" onclick="switchTab('tips')" id="tab-tips">💡</button>
       <button class="tab" onclick="switchTab('setup')" id="tab-setup">⚙️</button>
     </div>
 
-    <!-- Calendar page -->
     <div id="page-calendar">
       <div id="cycle-countdown"></div>
       <div id="fertile-banner-wrap"></div>
       <div id="legend"></div>
-      <div id="month-nav">
-        <button class="nav-btn" onclick="prevMonth()">‹</button>
-        <span id="month-label"></span>
-        <button class="nav-btn" onclick="nextMonth()">›</button>
-      </div>
+      <div id="month-nav"><button class="nav-btn" onclick="prevMonth()">‹</button><span id="month-label"></span><button class="nav-btn" onclick="nextMonth()">›</button></div>
       <div id="cal-wrap"><div id="cal-grid"></div></div>
-      <p class="hint-text">แตะวันที่เพื่อบันทึก BBT · อาการ · LH Test</p>
+      <p class="hint-text">แตะวันที่เพื่อบันทึกข้อมูล</p>
       <div class="card">
         <div class="card-title">⚙️ ตั้งค่ารอบเดือน</div>
-        <div class="slider-wrap">
-          <label class="slider-label">ความยาวรอบ: <strong id="cycle-len-val">28</strong> วัน <span id="auto-cycle" style="color:var(--mint);font-size:10px;font-weight:400"></span></label>
-          <input type="range" min="21" max="35" value="28" id="cycle-len-slider" oninput="updateCycleLen(this.value)"/>
-          <div class="slider-hint"><span>21 วัน</span><span>35 วัน</span></div>
-        </div>
-        <div class="slider-wrap">
-          <label class="slider-label">วันมีประจำเดือน: <strong id="period-len-val">5</strong> วัน</label>
-          <input type="range" min="3" max="8" value="5" id="period-len-slider" oninput="updatePeriodLen(this.value)"/>
-          <div class="slider-hint"><span>3 วัน</span><span>8 วัน</span></div>
-        </div>
+        <div class="slider-wrap"><label class="slider-label">ความยาวรอบ: <strong id="cycle-len-val">28</strong> วัน <span id="auto-cycle" style="color:var(--mint);font-size:10px;font-weight:400"></span></label><input type="range" min="21" max="35" value="28" id="cycle-len-slider" oninput="updateCycleLen(this.value)"/><div class="slider-hint"><span>21 วัน</span><span>35 วัน</span></div></div>
+        <div class="slider-wrap"><label class="slider-label">วันมีประจำเดือน: <strong id="period-len-val">5</strong> วัน</label><input type="range" min="3" max="8" value="5" id="period-len-slider" oninput="updatePeriodLen(this.value)"/><div class="slider-hint"><span>3 วัน</span><span>8 วัน</span></div></div>
       </div>
     </div>
 
-    <!-- BBT page -->
     <div id="page-bbt" style="display:none">
-      <div class="card">
-        <div class="card-title">🌡️ กราฟอุณหภูมิ BBT</div>
-        <div id="bbt-canvas-wrap"><canvas id="bbt-canvas"></canvas></div>
-        <div id="bbt-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:10px;color:var(--text3)"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">🧪 ประวัติ LH Test บวก</div>
-        <div id="lh-history"></div>
-      </div>
-      <div class="card">
-        <div class="card-title">📖 วิธีวัด BBT ให้ถูกต้อง</div>
-        <div id="bbt-tips"></div>
-      </div>
+      <div class="card"><div class="card-title">🌡️ กราฟ BBT</div><div id="bbt-canvas-wrap"><canvas id="bbt-canvas"></canvas></div><div id="bbt-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;font-size:10px;color:var(--txt3)"></div></div>
+      <div class="card"><div class="card-title">📈 กราฟน้ำหนัก</div><div id="weight-canvas-wrap"><canvas id="weight-canvas"></canvas></div></div>
+      <div class="card"><div class="card-title">🧪 ประวัติ LH บวก</div><div id="lh-history"></div></div>
+      <div class="card"><div class="card-title">📖 วิธีวัด BBT</div><div id="bbt-tips"></div></div>
     </div>
 
-    <!-- Stats page -->
     <div id="page-stats" style="display:none">
       <div class="card"><div class="card-title">📊 ภาพรวม</div><div class="stat-grid" id="stat-grid"></div></div>
       <div class="card"><div class="card-title">😊 อาการที่พบบ่อย</div><div id="sym-bars"></div></div>
       <div class="card"><div class="card-title">📋 ประวัติรอบเดือน</div><div id="period-history"></div></div>
     </div>
 
-    <!-- Tips page -->
-    <div id="page-tips" style="display:none"></div>
-
-
-    <!-- Custom Fields page -->
-    <div id="page-custom" style="display:none">
-      <div class="card">
-        <div class="card-title">🗂️ จัดการ Custom Fields</div>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.7">สร้าง field บันทึกข้อมูลส่วนตัว เช่น น้ำหนัก, ชั่วโมงนอน, ยาที่กิน</p>
-        <div id="cf-list"></div>
-        <button class="cf-add-btn" onclick="addCustomField()">+ เพิ่ม Field ใหม่</button>
-      </div>
-      <div class="card">
-        <div class="card-title">📋 ประวัติข้อมูล</div>
-        <div id="cf-history"></div>
-      </div>
+    <div id="page-reminder" style="display:none">
+      <div class="card"><div class="card-title">🔔 การแจ้งเตือน</div><div id="reminder-list"></div></div>
+      <div class="card" style="background:rgba(251,113,133,.06);border-color:rgba(251,113,133,.15)"><div class="card-title" style="color:#fb7185">⚠️ หมายเหตุ iOS</div><p style="font-size:12px;color:var(--txt3);line-height:1.7">บน iPhone ต้อง Add to Home Screen แล้วเปิดผ่าน icon เพื่อรับแจ้งเตือนได้ครับ</p></div>
     </div>
 
+    <div id="page-vitamin" style="display:none">
+      <div class="card"><div class="card-title">💊 วิตามินวันนี้</div><div class="vit-grid" id="vit-grid"></div></div>
+      <div class="card"><div class="card-title">📋 ประวัติ 7 วัน</div><div id="vit-history"></div></div>
+    </div>
 
-    <!-- Backfill page -->
+    <div id="page-pregtest" style="display:none">
+      <div class="card">
+        <div class="card-title">🤰 ผลทดสอบตั้งครรภ์</div>
+        <div class="preg-row">
+          <button class="preg-btn neg" onclick="logPregTest('negative')">➖ ลบ</button>
+          <button class="preg-btn faint" onclick="logPregTest('faint')">〰️ จาง</button>
+          <button class="preg-btn pos" onclick="logPregTest('positive')">➕ บวก! 🎉</button>
+        </div>
+        <p style="font-size:11px;color:var(--txt3);text-align:center;margin-top:4px">ทดสอบหลังประจำเดือนช้า 1+ วัน ด้วยปัสสาวะแรก</p>
+      </div>
+      <div class="card"><div class="card-title">📋 ประวัติ</div><div id="preg-history"></div></div>
+    </div>
+
     <div id="page-backfill" style="display:none">
       <div class="card">
         <div class="card-title">🕐 บันทึกย้อนหลัง</div>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.7">เลือกวันที่ต้องการบันทึก แล้วกรอกข้อมูลได้เลย</p>
-        <div class="backfill-quick" id="bq-days"></div>
-        <input type="date" class="backfill-date-input" id="backfill-date-input" onchange="selectBackfillDate(this.value)"/>
-        <button class="backfill-go" onclick="goBackfill()">✏️ เปิดบันทึกวันนี้</button>
+        <div class="bq-scroll" id="bq-days"></div>
+        <input type="date" class="bf-date-input" id="bf-date-input" onchange="selectBF(this.value)"/>
+        <button class="btn-primary" onclick="goBF()">✏️ เปิดบันทึกวันที่เลือก</button>
       </div>
-      <div class="card" id="backfill-preview" style="display:none">
-        <div class="card-title" id="backfill-preview-title"></div>
-        <div id="backfill-preview-content"></div>
-      </div>
+      <div class="card" id="bf-preview" style="display:none"><div class="card-title" id="bf-preview-title"></div><div id="bf-preview-content"></div></div>
     </div>
 
-    <!-- Setup page -->
-    <div id="page-setup" style="display:none">
+    <div id="page-custom" style="display:none">
       <div class="card">
-        <div class="card-title">☁️ เชื่อมต่อ Google Sheets</div>
-        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.7">วาง URL จาก Google Apps Script แล้วกดบันทึก</p>
-        <input type="url" id="api-url-input" placeholder="https://script.google.com/macros/s/...../exec"/>
-        <button class="btn-primary" onclick="saveApiUrl()">💾 บันทึก URL และซิงค์</button>
+        <div class="card-title">🗂️ Custom Fields</div>
+        <p style="font-size:12px;color:var(--txt3);margin-bottom:12px;line-height:1.7">สร้างช่องบันทึกข้อมูลส่วนตัว เช่น น้ำหนัก ชั่วโมงนอน</p>
+        <div id="cf-list"></div>
+        <button class="cf-add-btn" onclick="addCF()">+ เพิ่ม Field ใหม่</button>
+      </div>
+      <div class="card"><div class="card-title">📋 ประวัติ 14 วัน</div><div id="cf-history"></div></div>
+    </div>
+
+    <div id="page-tips" style="display:none"></div>
+
+    <div id="page-setup" style="display:none">
+      <div class="card"><div class="card-title">☁️ Google Sheets Sync</div><input type="url" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec"/><button class="btn-primary" onclick="saveApiUrl()">💾 บันทึก URL และซิงค์</button></div>
+      <div class="card">
+        <div class="card-title">🔒 ตั้ง PIN</div>
+        <p style="font-size:12px;color:var(--txt3);margin-bottom:10px">PIN 4 หลัก (เว้นว่างเพื่อปิด)</p>
+        <div class="pin-setup"><input type="password" id="pin-input" maxlength="4" placeholder="····" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/><button class="btn-primary" style="width:auto;padding:10px 16px" onclick="savePin()">บันทึก</button></div>
       </div>
       <div class="card">
-        <div class="card-title">📋 วิธีตั้งค่า</div>
+        <div class="card-title">📤 Export ข้อมูล</div>
+        <button class="export-btn exp-csv" onclick="exportCSV()">📥 Export CSV</button>
+        <button class="export-btn exp-pdf" onclick="exportPDF()">🖨️ Export PDF / พิมพ์</button>
+      </div>
+      <div class="card">
+        <div class="card-title">🎨 ธีม</div>
+        <div class="settings-row"><div><div class="settings-row-label">Dark Mode</div><div class="settings-row-sub">โทนสีเข้ม</div></div><button class="rem-toggle" id="dark-toggle" onclick="toggleDark()"></button></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 วิธีตั้งค่า Apps Script</div>
         <ol style="padding-left:18px;display:flex;flex-direction:column;gap:8px">
-          <li style="font-size:12px;color:var(--text2);line-height:1.7">เปิด Google Sheet → <strong>Extensions → Apps Script</strong></li>
-          <li style="font-size:12px;color:var(--text2);line-height:1.7">วางโค้ดจาก <code style="background:var(--rose-light);color:var(--rose);padding:1px 6px;border-radius:4px">Code.gs</code></li>
-          <li style="font-size:12px;color:var(--text2);line-height:1.7"><strong>Deploy → New Deployment → Web App</strong></li>
-          <li style="font-size:12px;color:var(--text2);line-height:1.7">Execute as: <strong>Me</strong> | Who has access: <strong>Anyone</strong></li>
-          <li style="font-size:12px;color:var(--text2);line-height:1.7">Copy URL มาวางด้านบน</li>
+          <li style="font-size:12px;color:var(--txt2);line-height:1.7">Google Sheet → <strong>Extensions → Apps Script</strong></li>
+          <li style="font-size:12px;color:var(--txt2);line-height:1.7">วางโค้ดจาก <code style="background:var(--rose-l);color:var(--rose);padding:1px 5px;border-radius:4px">Code.gs</code></li>
+          <li style="font-size:12px;color:var(--txt2);line-height:1.7"><strong>Deploy → Web App → Execute as: Me → Anyone</strong></li>
         </ol>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
 <div id="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()">
   <div id="modal">
     <div id="modal-handle"></div>
-    <div class="modal-date-row">
-      <div>
-        <div class="modal-date-title" id="modal-date"></div>
-        <div class="modal-type-badge" id="modal-type-badge"></div>
-      </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--txt)" id="modal-date"></div><div style="font-size:11px;margin-top:3px" id="modal-type-badge"></div></div>
       <button class="btn-period-toggle" id="modal-period-btn" onclick="togglePeriodFromModal()"></button>
     </div>
-
-    <div class="modal-section">
-      <label class="modal-label">🌡️ อุณหภูมิ BBT</label>
-      <div style="display:flex;align-items:center;gap:8px">
-        <input type="number" id="bbt-input" step="0.01" min="35" max="38.5" placeholder="36.50"/>
-        <span style="color:var(--text3);font-size:13px;white-space:nowrap">°C</span>
-      </div>
-      <div id="bbt-hint"></div>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">🧪 LH Test</label>
-      <div class="lh-grid">
-        <button class="lh-btn" onclick="setLH(null)" id="lh-none">ไม่ทดสอบ</button>
-        <button class="lh-btn" onclick="setLH('negative')" id="lh-negative">ลบ</button>
-        <button class="lh-btn" onclick="setLH('positive')" id="lh-positive">บวก ✅</button>
-        <button class="lh-btn" onclick="setLH('peak')" id="lh-peak">สูงสุด ⭐</button>
-      </div>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">😊 อาการ / อารมณ์</label>
-      <div class="sym-grid" id="sym-grid"></div>
-    </div>
-
-    <div class="modal-section">
-      <label class="modal-label">📝 บันทึก</label>
-      <textarea id="note-input" rows="3" placeholder="อาการ ความรู้สึก หรือข้อสังเกตวันนี้..."></textarea>
-    </div>
-
-
+    <div class="modal-section"><label class="modal-label">🌡️ BBT</label><div style="display:flex;align-items:center;gap:8px"><input type="number" id="bbt-input" class="m-input" step="0.01" min="35" max="38.5" placeholder="36.50"/><span style="color:var(--txt3);font-size:13px;white-space:nowrap">°C</span></div><div id="bbt-hint" style="font-size:11px;margin-top:4px;min-height:16px"></div></div>
+    <div class="modal-section"><label class="modal-label">⚖️ น้ำหนัก</label><div style="display:flex;align-items:center;gap:8px"><input type="number" id="weight-input" class="m-input" step="0.1" min="30" max="150" placeholder="52.0"/><span style="color:var(--txt3);font-size:13px;white-space:nowrap">kg</span></div></div>
+    <div class="modal-section"><label class="modal-label">🧪 LH Test</label><div class="lh-grid"><button class="lh-btn" onclick="setLH(null)" id="lh-none">ไม่ทดสอบ</button><button class="lh-btn" onclick="setLH('negative')" id="lh-negative">ลบ</button><button class="lh-btn" onclick="setLH('positive')" id="lh-positive">บวก ✅</button><button class="lh-btn" onclick="setLH('peak')" id="lh-peak">สูงสุด ⭐</button></div></div>
+    <div class="modal-section"><label class="modal-label">😊 อาการ</label><div class="sym-grid" id="sym-grid"></div></div>
     <div class="modal-section" id="modal-custom-fields"></div>
-
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
-      <button class="btn-save" onclick="saveModal()">💾 บันทึก</button>
-    </div>
+    <div class="modal-section"><label class="modal-label">📝 บันทึก</label><textarea id="note-input" rows="2" placeholder="ความรู้สึก อาการ หรือข้อสังเกต..."></textarea></div>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">ยกเลิก</button><button class="btn-save" onclick="saveModal()">💾 บันทึก</button></div>
   </div>
 </div>
-
 <div id="toast"></div>
 
 <script>
-// ════════════════════ CONFIG ════════════════════
-const LS_KEY    = "fertility-v3";
-const LS_APIURL = "fertility-api-url";
-const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbw7CASLDiccwlyRYdufQldXbVdoQVbyzOaU3ZPiJNrSzWtZ-InSPsl0xSRFJfwczYBvkw/exec";
-
-// ════════════════════ STATE ════════════════════
-let state = { cycles:[], dayData:{}, cycleLen:28, periodLen:5, customFields:[] };
-// customFields: [{id,name,type}]  type: 'text'|'number'|'check'
-let viewYear=new Date().getFullYear(), viewMonth=new Date().getMonth();
-let modalDate=null, modalLH=null, modalSyms=[], currentTab="calendar";
-
+const LS_KEY="fertility-v4",LS_API="fertility-api-url";
+const DEFAULT_API="https://script.google.com/macros/s/AKfycbw7CASLDiccwlyRYdufQldXbVdoQVbyzOaU3ZPiJNrSzWtZ-InSPsl0xSRFJfwczYBvkw/exec";
+let state={cycles:[],dayData:{},cycleLen:28,periodLen:5,customFields:[],vitamins:[{id:"folate",name:"โฟเลต",dose:"400 mcg"},{id:"iron",name:"ธาตุเหล็ก",dose:"27 mg"},{id:"calcium",name:"แคลเซียม",dose:"1000 mg"},{id:"omega3",name:"Omega-3",dose:"200 mg"}],reminders:{bbt:{on:false,time:"07:00"},fertile:{on:false},period:{on:false}},pregTests:[],settings:{darkMode:false,pin:""}};
+let viewYear=new Date().getFullYear(),viewMonth=new Date().getMonth();
+let modalDate=null,modalLH=null,modalSyms=[],currentTab="calendar",bfSelected=null,pinBuffer="";
 const MONTHS_TH=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const MONTHS_S=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 const DAYS_TH=["อา","จ","อ","พ","พฤ","ศ","ส"];
-const SYMPTOMS=[
-  {id:"cramps",label:"ปวดท้อง",emoji:"😣"},{id:"headache",label:"ปวดหัว",emoji:"🤕"},
-  {id:"bloating",label:"ท้องอืด",emoji:"😮‍💨"},{id:"mood_good",label:"อารมณ์ดี",emoji:"😊"},
-  {id:"mood_bad",label:"หงุดหงิด",emoji:"😤"},{id:"tired",label:"เหนื่อย",emoji:"😴"},
-  {id:"nausea",label:"คลื่นไส้",emoji:"🤢"},{id:"discharge",label:"มูกใส",emoji:"💧"},
-  {id:"spotting",label:"เลือดกระปริด",emoji:"🩸"},{id:"sex",label:"มีเพศสัมพันธ์",emoji:"💕"},
-];
-const TYPE_CONFIG={
-  period:   {bg:"#fb7185",bgAlpha:"rgba(251,113,133,.85)",label:"มีประจำเดือน",emoji:"🌹"},
-  fertile:  {bg:"#34d399",bgAlpha:"rgba(52,211,153,.8)",label:"วันเจริญพันธุ์",emoji:"🌿"},
-  ovulation:{bg:"#f59e0b",bgAlpha:"rgba(245,158,11,.85)",label:"ไข่ตก ✨",emoji:"⭐"},
-  luteal:   {bg:"#c084fc",bgAlpha:"rgba(192,132,252,.8)",label:"หลังไข่ตก",emoji:"🌙"},
-};
-
-// ════════════════════ HELPERS ════════════════════
+const DAYS_FULL=["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัส","ศุกร์","เสาร์"];
+const SYMPTOMS=[{id:"cramps",label:"ปวดท้อง",emoji:"😣"},{id:"headache",label:"ปวดหัว",emoji:"🤕"},{id:"bloating",label:"ท้องอืด",emoji:"😮‍💨"},{id:"mood_good",label:"อารมณ์ดี",emoji:"😊"},{id:"mood_bad",label:"หงุดหงิด",emoji:"😤"},{id:"tired",label:"เหนื่อย",emoji:"😴"},{id:"nausea",label:"คลื่นไส้",emoji:"🤢"},{id:"discharge",label:"มูกใส",emoji:"💧"},{id:"spotting",label:"เลือดกระปริด",emoji:"🩸"},{id:"sex",label:"มีเพศสัมพันธ์",emoji:"💕"},{id:"acne",label:"สิว",emoji:"😖"},{id:"breast",label:"เจ็บหน้าอก",emoji:"🎀"}];
+const TYPE_CONFIG={period:{bg:"#fb7185",bga:"rgba(251,113,133,.82)",label:"มีประจำเดือน",emoji:"🌹"},fertile:{bg:"#34d399",bga:"rgba(52,211,153,.75)",label:"วันเจริญพันธุ์",emoji:"🌿"},ovulation:{bg:"#f59e0b",bga:"rgba(245,158,11,.82)",label:"ไข่ตก ✨",emoji:"⭐"},luteal:{bg:"#c084fc",bga:"rgba(192,132,252,.75)",label:"หลังไข่ตก",emoji:"🌙"}};
 const pad=n=>String(n).padStart(2,"0");
 const fmtDate=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const parseD=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
 const addDays=(date,n)=>{const d=new Date(date);d.setDate(d.getDate()+n);return d;};
 const diffDays=(a,b)=>Math.round((b-a)/86400000);
-const today=()=>new Date();
-const todayStr=()=>fmtDate(today());
-
-function toast(msg,dur=2200){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),dur);
-}
-
-// ════════════════════ PETALS ════════════════════
-function spawnPetals(){
-  const petals=["🌸","🌺","🌼","💮","🪷"];
-  for(let i=0;i<8;i++){
-    const el=document.createElement("div");
-    el.className="petal";
-    el.textContent=petals[Math.floor(Math.random()*petals.length)];
-    el.style.cssText=`left:${Math.random()*100}vw;font-size:${10+Math.random()*14}px;animation-duration:${12+Math.random()*18}s;animation-delay:${Math.random()*20}s;`;
-    document.body.appendChild(el);
-  }
-}
-
-// ════════════════════ STORAGE ════════════════════
+const today=()=>new Date();const ts=()=>fmtDate(today());
+function toast(msg,dur=2200){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),dur);}
+function applyDark(on){document.body.classList.toggle("dark",on);const b=document.getElementById("dark-btn");if(b)b.textContent=on?"☀️":"🌙";const t=document.getElementById("dark-toggle");if(t){t.className="rem-toggle "+(on?"on":"off");}}
+function toggleDark(){state.settings=state.settings||{};state.settings.darkMode=!state.settings.darkMode;applyDark(state.settings.darkMode);saveLocal();}
+function checkPin(){const pin=state.settings?.pin;if(!pin){document.getElementById("pin-overlay").style.display="none";return;}document.getElementById("pin-overlay").style.display="flex";}
+function pinPress(k){if(k==="C"){pinBuffer="";updatePinDots();return;}if(k==="DEL"){pinBuffer=pinBuffer.slice(0,-1);updatePinDots();return;}if(pinBuffer.length>=4)return;pinBuffer+=k;updatePinDots();if(pinBuffer.length===4){if(pinBuffer===state.settings?.pin){document.getElementById("pin-overlay").style.display="none";document.getElementById("pin-error").textContent="";pinBuffer="";}else{document.getElementById("pin-error").textContent="PIN ไม่ถูกต้อง";setTimeout(()=>{pinBuffer="";updatePinDots();document.getElementById("pin-error").textContent="";},600);}}}
+function updatePinDots(){for(let i=0;i<4;i++){const d=document.getElementById("pd"+i);if(d)d.classList.toggle("filled",i<pinBuffer.length);}}
+function savePin(){const v=document.getElementById("pin-input").value.trim();state.settings=state.settings||{};state.settings.pin=v;saveLocal();toast(v?"🔒 ตั้ง PIN แล้ว":"🔓 ปิด PIN แล้ว");document.getElementById("pin-input").value="";}
 function saveLocal(){localStorage.setItem(LS_KEY,JSON.stringify(state));}
-function loadLocal(){try{const r=localStorage.getItem(LS_KEY);if(r)state={...state,...JSON.parse(r)};}catch(_){}}
-function getApiUrl(){return localStorage.getItem(LS_APIURL)||DEFAULT_API_URL;}
-function saveApiUrl(){
-  const url=document.getElementById("api-url-input").value.trim();
-  localStorage.setItem(LS_APIURL,url);
-  toast("💾 บันทึก URL แล้ว");syncNow();
-}
-
-// ════════════════════ SYNC ════════════════════
+function loadLocal(){try{const r=localStorage.getItem(LS_KEY);if(r){const d=JSON.parse(r);state={...state,...d};if(!state.vitamins)state.vitamins=[{id:"folate",name:"โฟเลต",dose:"400 mcg"},{id:"iron",name:"ธาตุเหล็ก",dose:"27 mg"},{id:"calcium",name:"แคลเซียม",dose:"1000 mg"},{id:"omega3",name:"Omega-3",dose:"200 mg"}];if(!state.reminders)state.reminders={bbt:{on:false,time:"07:00"},fertile:{on:false},period:{on:false}};if(!state.pregTests)state.pregTests=[];if(!state.settings)state.settings={darkMode:false,pin:""};}}catch(_){}}
+function getApiUrl(){return localStorage.getItem(LS_API)||DEFAULT_API;}
+function saveApiUrl(){const u=document.getElementById("api-url-input").value.trim();localStorage.setItem(LS_API,u);toast("💾 บันทึก URL");syncNow();}
 let syncing=false;
-async function syncNow(){
-  const url=getApiUrl();
-  if(!url){toast("⚙️ กรุณาตั้งค่า API URL");switchTab("setup");return;}
-  if(syncing)return;
-  syncing=true;
-  const btn=document.getElementById("sync-btn");
-  btn.className="syncing";btn.textContent="⏳ ซิงค์...";
-  try{
-    const res=await fetch(url,{method:"POST",body:JSON.stringify({action:"sync",payload:state})});
-    const json=await res.json();
-    if(json.ok){btn.className="ok";btn.textContent="✅ สำเร็จ";toast("☁️ ซิงค์ขึ้น Google Sheets แล้ว");}
-    else throw new Error(json.error);
-  }catch(e){
-    try{
-      const r2=await fetch(url+"?action=all");const j2=await r2.json();
-      if(j2.ok){
-        state.cycles=j2.periods||[];state.dayData=j2.daydata||{};
-        const s=j2.settings||{};
-        if(s.cycleLen)state.cycleLen=parseInt(s.cycleLen);
-        if(s.periodLen)state.periodLen=parseInt(s.periodLen);
-        saveLocal();renderAll();btn.className="ok";btn.textContent="✅ ดึงข้อมูล";
-        toast("📥 ดึงข้อมูลจาก Sheets สำเร็จ");
-      }else throw e;
-    }catch(_){btn.className="error";btn.textContent="❌ ล้มเหลว";toast("❌ ซิงค์ล้มเหลว ตรวจสอบ URL");}
-  }
-  syncing=false;
-  setTimeout(()=>{const b=document.getElementById("sync-btn");b.className="";b.textContent="☁️ ซิงค์";},3000);
-}
-async function autoSync(){
-  const url=getApiUrl();if(!url)return;
-  try{await fetch(url,{method:"POST",body:JSON.stringify({action:"sync",payload:state})});}catch(_){}
-}
-
-// ════════════════════ FERTILITY LOGIC ════════════════════
-function computeFertility(){
-  const map={};
-  const mark=(start,days,type)=>{for(let i=0;i<days;i++){const k=fmtDate(addDays(start,i));if(type==="ovulation"||!map[k])map[k]=type;}};
-  const sorted=[...state.cycles].sort();if(!sorted.length)return map;
-  let cl=state.cycleLen;
-  if(sorted.length>=2){
-    const diffs=[];for(let i=1;i<sorted.length;i++)diffs.push(diffDays(parseD(sorted[i-1]),parseD(sorted[i])));
-    cl=Math.max(21,Math.min(35,Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length)));
-  }
-  const last=parseD(sorted[sorted.length-1]);
-  for(let o=-2;o<=6;o++){
-    const cs=addDays(last,o*cl);mark(cs,state.periodLen,"period");
-    const ov=addDays(cs,cl-14);
-    mark(addDays(ov,-5),5,"fertile");mark(ov,1,"ovulation");mark(addDays(ov,1),cl-14-5-1,"luteal");
-  }
-  sorted.forEach(ds=>{for(let i=0;i<state.periodLen;i++)map[fmtDate(addDays(parseD(ds),i))]="period";});
-  return map;
-}
-function getAvgCycle(){
-  if(state.cycles.length<2)return state.cycleLen;
-  const sorted=[...state.cycles].sort();const diffs=[];
-  for(let i=1;i<sorted.length;i++)diffs.push(diffDays(parseD(sorted[i-1]),parseD(sorted[i])));
-  return Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length);
-}
-
-// ════════════════════ TABS ════════════════════
-function switchTab(tab){
-  ["calendar","bbt","stats","tips","custom","backfill","setup"].forEach(t=>{
-    document.getElementById("page-"+t).style.display=t===tab?"block":"none";
-    document.getElementById("tab-"+t).classList.toggle("active",t===tab);
-  });
-  currentTab=tab;
-  if(tab==="bbt")renderBBT();
-  if(tab==="stats")renderStats();
-  if(tab==="tips")renderTips();
-  if(tab==="custom")renderCustomFieldsPage();
-  if(tab==="backfill")renderBackfillPage();
-}
-
-// ════════════════════ RENDER ALL ════════════════════
-function renderAll(){
-  const fm=computeFertility();
-  renderTodayPill(fm);
-  renderCountdown(fm);
-  renderFertileBanner(fm);
-  renderLegend();
-  renderCalendar(fm);
-  updateSliders();
-}
-
-function renderTodayPill(fm){
-  const ts=todayStr();const type=fm[ts];const cfg=type?TYPE_CONFIG[type]:null;
-  const el=document.getElementById("today-type-pill");
-  if(cfg){
-    el.style.display="flex";
-    el.style.background=`linear-gradient(135deg,${cfg.bg}22,${cfg.bg}11)`;
-    el.style.border=`1px solid ${cfg.bg}44`;
-    el.innerHTML=`<span style="font-size:20px">${cfg.emoji}</span><div><div style="font-size:13px;font-weight:600;color:${cfg.bg}">${cfg.label}</div><div style="font-size:10px;color:var(--text3)">สถานะวันนี้</div></div>`;
-  }else el.style.display="none";
-}
-
-function renderCountdown(fm){
-  const ts=todayStr();const t=today();const sorted=[...state.cycles].sort();const cl=getAvgCycle();
-  if(!sorted.length){document.getElementById("cycle-countdown").innerHTML="";return;}
-  const last=parseD(sorted[sorted.length-1]);
-  const dayInCycle=diffDays(last,t)+1;
-  const expectedNext=addDays(last,cl);
-  const toNext=diffDays(t,expectedNext);
-  const lateBy=toNext<0?Math.abs(toNext):0;
-  const ovOffset=cl-14;
-  const daysSinceOv=dayInCycle-ovOffset;
-  const daysToOv=ovOffset-dayInCycle;
-  let ovText,ovUnit;
-  if(daysSinceOv>=0){ovText=String(daysSinceOv);ovUnit="วันที่แล้ว";}
-  else{ovText=String(Math.abs(daysToOv+1));ovUnit="วันข้างหน้า";}
-  document.getElementById("cycle-countdown").innerHTML=`
-    <div class="card" id="cycle-card" style="margin-bottom:10px">
-      <div class="card-title">🌸 รอบปัจจุบัน</div>
-      <div class="cycle-grid">
-        <div class="cycle-cell"><div class="cv" style="color:#e879f9">${dayInCycle}</div><div class="cl">วันที่ในรอบ<br>/ ${cl} วัน</div></div>
-        <div class="cycle-cell"><div class="cv" style="color:${lateBy>2?"#34d399":lateBy>0?"#f59e0b":"#a78bfa"}">${lateBy>0?lateBy:toNext}</div><div class="cl">${lateBy>0?"มาช้า (วัน) ⚠️":"ถัดไปใน (วัน)"}</div></div>
-        <div class="cycle-cell"><div class="cv" style="color:#f59e0b">${ovText}</div><div class="cl">ไข่ตก<br>${ovUnit}</div></div>
-      </div>
-      ${lateBy>2?`<div class="late-pill">🌸 ประจำเดือนมาช้า ${lateBy} วัน — ลองทดสอบการตั้งครรภ์ได้แล้ว!</div>`:""}
-    </div>`;
-}
-
-function renderFertileBanner(fm){
-  const ts=todayStr();const t=today();
-  const upFertile=Object.entries(fm).filter(([d,t2])=>d>=ts&&(t2==="fertile"||t2==="ovulation")).sort(([a],[b])=>a.localeCompare(b));
-  const nextF=upFertile[0]?.[0];const nextOv=upFertile.find(([,t2])=>t2==="ovulation")?.[0];
-  const dF=nextF?diffDays(t,parseD(nextF)):null;const dOv=nextOv?diffDays(t,parseD(nextOv)):null;
-  if(dF===null){document.getElementById("fertile-banner-wrap").innerHTML="";return;}
-  document.getElementById("fertile-banner-wrap").innerHTML=`
-    <div class="card" id="fertile-card" style="margin-bottom:10px">
-      <div class="card-title">🌿 ช่วงเจริญพันธุ์ถัดไป</div>
-      <div class="fertile-inner">
-        <div>
-          <div class="fertile-days">${dF<=0?"ตอนนี้!":dF+" วัน"}</div>
-          <div class="fertile-sub">${nextF?"เริ่ม "+nextF:""}</div>
-        </div>
-        ${dOv!==null?`<div class="ov-pill"><div class="ov-lbl">⭐ ไข่ตก</div><div class="ov-val">${dOv<=0?"วันนี้!":"+"+dOv}</div></div>`:""}
-      </div>
-    </div>`;
-}
-
-function renderLegend(){
-  document.getElementById("legend").innerHTML=
-    Object.entries(TYPE_CONFIG).map(([,c])=>`<div class="leg"><div class="leg-dot" style="background:${c.bg}"></div>${c.label}</div>`).join("")+
-    `<div class="leg"><div class="leg-dot" style="background:linear-gradient(135deg,#f472b6,#a78bfa)"></div>มีข้อมูล</div>`;
-}
-
-// ════════════════════ CALENDAR ════════════════════
-function renderCalendar(fm){
-  document.getElementById("month-label").textContent=`${MONTHS_TH[viewMonth]} ${viewYear}`;
-  const firstDay=new Date(viewYear,viewMonth,1).getDay();
-  const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
-  const ts=todayStr();
-  let html=DAYS_TH.map(d=>`<div class="cal-head">${d}</div>`).join("");
-  for(let i=0;i<firstDay;i++)html+="<div></div>";
-  for(let d=1;d<=daysInMonth;d++){
-    const ds=`${viewYear}-${pad(viewMonth+1)}-${pad(d)}`;
-    const type=fm[ds];const cfg=type?TYPE_CONFIG[type]:null;
-    const isPeriodStart=state.cycles.includes(ds);
-    const dd=state.dayData[ds]||{};
-    const hasBBT=dd.bbt!=null,hasLH=dd.lh!=null,hasSym=(dd.symptoms||[]).length>0,hasNote=!!dd.note;
-    const bg=cfg?cfg.bgAlpha:"rgba(255,255,255,0.6)";
-    const col=cfg?"#fff":"var(--text2)";
-    const dotCol=cfg?"rgba(255,255,255,.7)":null;
-    let dots="";
-    if(hasBBT||hasLH||hasSym||hasNote){
-      dots=`<div class="dots">
-        ${hasBBT?`<div class="dot" style="background:${dotCol||"#818cf8"}"></div>`:""}
-        ${hasLH?`<div class="dot" style="background:${dotCol||"#f59e0b"}"></div>`:""}
-        ${hasSym?`<div class="dot" style="background:${dotCol||"#f472b6"}"></div>`:""}
-        ${hasNote?`<div class="dot" style="background:${dotCol||"#94a3b8"}"></div>`:""}
-      </div>`;
-    }
-    html+=`<button class="cal-day${ds===ts?" today":""}${isPeriodStart?" period-start":""}"
-      style="background:${bg};color:${col};font-weight:${isPeriodStart?700:400};${cfg?"box-shadow:0 2px 8px "+cfg.bg+"44":""}"
-      onclick="openModal('${ds}')">${d}${dots}</button>`;
-  }
-  document.getElementById("cal-grid").innerHTML=html;
-}
-
+async function syncNow(){const url=getApiUrl();if(!url){toast("⚙️ กรุณาตั้งค่า URL");switchTab("setup");return;}if(syncing)return;syncing=true;const btn=document.getElementById("sync-btn");btn.className="hdr-btn syncing";btn.textContent="⏳";try{const r=await fetch(url,{method:"POST",body:JSON.stringify({action:"sync",payload:state})});const j=await r.json();if(j.ok){btn.textContent="✅";btn.className="hdr-btn ok";toast("☁️ ซิงค์สำเร็จ");}else throw new Error(j.error);}catch(e){try{const r2=await fetch(url+"?action=all");const j2=await r2.json();if(j2.ok){state.cycles=j2.periods||[];state.dayData=j2.daydata||{};const s=j2.settings||{};if(s.cycleLen)state.cycleLen=parseInt(s.cycleLen);if(s.periodLen)state.periodLen=parseInt(s.periodLen);saveLocal();renderAll();btn.textContent="✅";btn.className="hdr-btn ok";toast("📥 ดึงข้อมูลจาก Sheets สำเร็จ");}else throw e;}catch(_){btn.textContent="❌";btn.className="hdr-btn error";toast("❌ ซิงค์ล้มเหลว");}}syncing=false;setTimeout(()=>{const b=document.getElementById("sync-btn");b.className="hdr-btn";b.textContent="☁️";},3000);}
+async function autoSync(){try{const url=getApiUrl();if(url)await fetch(url,{method:"POST",body:JSON.stringify({action:"sync",payload:state})});}catch(_){}}
+function computeFertility(){const map={};const mark=(start,days,type)=>{for(let i=0;i<days;i++){const k=fmtDate(addDays(start,i));if(type==="ovulation"||!map[k])map[k]=type;}};const sorted=[...state.cycles].sort();if(!sorted.length)return map;let cl=state.cycleLen;if(sorted.length>=2){const diffs=[];for(let i=1;i<sorted.length;i++)diffs.push(diffDays(parseD(sorted[i-1]),parseD(sorted[i])));cl=Math.max(21,Math.min(35,Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length)));}const last=parseD(sorted[sorted.length-1]);for(let o=-2;o<=6;o++){const cs=addDays(last,o*cl);mark(cs,state.periodLen,"period");const ov=addDays(cs,cl-14);mark(addDays(ov,-5),5,"fertile");mark(ov,1,"ovulation");mark(addDays(ov,1),cl-14-6,"luteal");}sorted.forEach(ds=>{for(let i=0;i<state.periodLen;i++)map[fmtDate(addDays(parseD(ds),i))]="period";});return map;}
+function getAvgCycle(){if(state.cycles.length<2)return state.cycleLen;const s=[...state.cycles].sort();const d=[];for(let i=1;i<s.length;i++)d.push(diffDays(parseD(s[i-1]),parseD(s[i])));return Math.round(d.reduce((a,b)=>a+b,0)/d.length);}
+const ALL_TABS=["calendar","bbt","stats","reminder","vitamin","pregtest","backfill","custom","tips","setup"];
+function switchTab(tab){ALL_TABS.forEach(t=>{document.getElementById("page-"+t).style.display=t===tab?"block":"none";document.getElementById("tab-"+t).classList.toggle("active",t===tab);});currentTab=tab;if(tab==="bbt")renderBBT();if(tab==="stats")renderStats();if(tab==="tips")renderTips();if(tab==="reminder")renderReminders();if(tab==="vitamin")renderVitamins();if(tab==="pregtest")renderPregTests();if(tab==="backfill")renderBackfill();if(tab==="custom")renderCFPage();}
+function renderAll(){const fm=computeFertility();renderTodayWidget(fm);renderCountdown(fm);renderFertileBanner(fm);renderLegend();renderCalendar(fm);updateSliders();}
+function renderTodayWidget(fm){const type=fm[ts()];const cfg=type?TYPE_CONFIG[type]:null;const t=today();const sorted=[...state.cycles].sort();const cl=getAvgCycle();const el=document.getElementById("today-widget");if(!cfg&&!sorted.length){el.style.display="none";return;}el.style.display="flex";let dayInCycle="-";if(sorted.length){const last=parseD(sorted[sorted.length-1]);dayInCycle=diffDays(last,t)+1;}el.style.background=cfg?`linear-gradient(135deg,${cfg.bg}18,${cfg.bg}08)`:"rgba(255,255,255,.5)";el.style.border=`1px solid ${cfg?cfg.bg+"33":"var(--bdr)"}`;el.innerHTML=`<div class="tw-info"><div class="tw-type" style="color:${cfg?cfg.bg:"var(--rose)"}">${cfg?cfg.emoji+" "+cfg.label:"🌸 ติดตามรอบเดือน"}</div><div class="tw-date">${t.getDate()} ${MONTHS_S[t.getMonth()]} ${t.getFullYear()}</div></div><div class="tw-stat"><div class="tw-stat-val" style="color:${cfg?cfg.bg:"var(--rose)"}">${dayInCycle}</div><div class="tw-stat-lbl">วันที่ในรอบ / ${cl}</div></div>`;}
+function renderCountdown(fm){const t=today();const sorted=[...state.cycles].sort();const cl=getAvgCycle();if(!sorted.length){document.getElementById("cycle-countdown").innerHTML="";return;}const last=parseD(sorted[sorted.length-1]);const dayInCycle=diffDays(last,t)+1;const toNext=diffDays(t,addDays(last,cl));const lateBy=toNext<0?Math.abs(toNext):0;const ovOffset=cl-14;const daysSinceOv=dayInCycle-ovOffset;const daysToOv=ovOffset-dayInCycle;let ovText=daysSinceOv>=0?String(daysSinceOv):String(Math.abs(daysToOv+1));let ovUnit=daysSinceOv>=0?"วันที่แล้ว":"วันข้างหน้า";document.getElementById("cycle-countdown").innerHTML=`<div class="card" style="background:linear-gradient(135deg,rgba(244,114,182,.1),rgba(167,139,250,.1));border-color:rgba(244,114,182,.2);margin-bottom:10px"><div class="card-title">🌸 รอบปัจจุบัน</div><div class="cycle-grid"><div class="cyc-cell"><div class="cyc-val" style="color:#e879f9">${dayInCycle}</div><div class="cyc-lbl">วันที่ในรอบ / ${cl}</div></div><div class="cyc-cell"><div class="cyc-val" style="color:${lateBy>2?"#34d399":lateBy>0?"#f59e0b":"#a78bfa"}">${lateBy>0?lateBy:toNext}</div><div class="cyc-lbl">${lateBy>0?"มาช้า (วัน) ⚠️":"ถัดไปใน (วัน)"}</div></div><div class="cyc-cell"><div class="cyc-val" style="color:#f59e0b">${ovText}</div><div class="cyc-lbl">ไข่ตก<br>${ovUnit}</div></div></div>${lateBy>2?`<div class="late-pill">🌸 ประจำเดือนมาช้า ${lateBy} วัน — ลองทดสอบการตั้งครรภ์ได้แล้ว!</div>`:""}</div>`;}
+function renderFertileBanner(fm){const t=today();const upF=Object.entries(fm).filter(([d,t2])=>d>=ts()&&(t2==="fertile"||t2==="ovulation")).sort(([a],[b])=>a.localeCompare(b));const nF=upF[0]?.[0];const nOv=upF.find(([,t2])=>t2==="ovulation")?.[0];const dF=nF?diffDays(t,parseD(nF)):null;const dOv=nOv?diffDays(t,parseD(nOv)):null;if(dF===null){document.getElementById("fertile-banner-wrap").innerHTML="";return;}document.getElementById("fertile-banner-wrap").innerHTML=`<div class="card fertile-card" style="margin-bottom:10px"><div class="card-title">🌿 ช่วงเจริญพันธุ์ถัดไป</div><div class="fertile-inner"><div><div class="fertile-days">${dF<=0?"ตอนนี้!":dF+" วัน"}</div><div class="fertile-sub">${nF?"เริ่ม "+nF:""}</div></div>${dOv!==null?`<div class="ov-pill"><div class="ov-lbl">⭐ ไข่ตก</div><div class="ov-val">${dOv<=0?"วันนี้!":"+"+dOv}</div></div>`:""}</div></div>`;}
+function renderLegend(){document.getElementById("legend").innerHTML=Object.entries(TYPE_CONFIG).map(([,c])=>`<div class="leg"><div class="leg-dot" style="background:${c.bg}"></div>${c.label}</div>`).join("")+`<div class="leg"><div class="leg-dot" style="background:linear-gradient(135deg,#f472b6,#a78bfa)"></div>มีข้อมูล</div>`;}
+function renderCalendar(fm){document.getElementById("month-label").textContent=`${MONTHS_TH[viewMonth]} ${viewYear}`;const firstDay=new Date(viewYear,viewMonth,1).getDay();const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();let html=DAYS_TH.map(d=>`<div class="cal-head">${d}</div>`).join("");for(let i=0;i<firstDay;i++)html+="<div></div>";for(let d=1;d<=daysInMonth;d++){const ds=`${viewYear}-${pad(viewMonth+1)}-${pad(d)}`;const type=fm[ds];const cfg=type?TYPE_CONFIG[type]:null;const isPeriod=state.cycles.includes(ds);const dd=state.dayData[ds]||{};const hasDots=(dd.bbt!=null||dd.lh!=null||(dd.symptoms||[]).length>0||dd.note||dd.weight!=null||Object.keys(dd.custom||{}).length>0);html+=`<button class="cal-day${ds===ts()?" today":""}${isPeriod?" period-start":""}" style="background:${cfg?cfg.bga:"rgba(255,255,255,.5)"};color:${cfg?"#fff":"var(--txt2)"};font-weight:${isPeriod?700:400};${cfg?"box-shadow:0 2px 8px "+cfg.bg+"44":""}" onclick="openModal('${ds}')">${d}${hasDots?`<div class="dots"><div class="dot" style="background:${cfg?"rgba(255,255,255,.7)":"#f472b6"}"></div></div>`:""}</button>`;}document.getElementById("cal-grid").innerHTML=html;}
 function prevMonth(){if(viewMonth===0){viewMonth=11;viewYear--;}else viewMonth--;renderAll();}
 function nextMonth(){if(viewMonth===11){viewMonth=0;viewYear++;}else viewMonth++;renderAll();}
-
-// ════════════════════ SLIDERS ════════════════════
-function updateSliders(){
-  document.getElementById("cycle-len-val").textContent=state.cycleLen;
-  document.getElementById("period-len-val").textContent=state.periodLen;
-  document.getElementById("cycle-len-slider").value=state.cycleLen;
-  document.getElementById("period-len-slider").value=state.periodLen;
-  const avg=getAvgCycle();
-  document.getElementById("auto-cycle").textContent=state.cycles.length>=2?`(จาก data: ${avg} วัน)`:"";
-}
+function updateSliders(){document.getElementById("cycle-len-val").textContent=state.cycleLen;document.getElementById("period-len-val").textContent=state.periodLen;document.getElementById("cycle-len-slider").value=state.cycleLen;document.getElementById("period-len-slider").value=state.periodLen;const avg=getAvgCycle();document.getElementById("auto-cycle").textContent=state.cycles.length>=2?`(จาก data: ${avg} วัน)`:"";}
 function updateCycleLen(v){state.cycleLen=parseInt(v);document.getElementById("cycle-len-val").textContent=v;saveLocal();autoSync();renderAll();}
 function updatePeriodLen(v){state.periodLen=parseInt(v);document.getElementById("period-len-val").textContent=v;saveLocal();autoSync();renderAll();}
-
-// ════════════════════ MODAL ════════════════════
-function openModal(ds){
-  modalDate=ds;
-  const dd=state.dayData[ds]||{};
-  modalLH=dd.lh??null;modalSyms=[...(dd.symptoms||[])];
-  const fm=computeFertility();const type=fm[ds];const cfg=type?TYPE_CONFIG[type]:null;
-  const isPeriod=state.cycles.includes(ds);
-  const d=parseD(ds);
-  document.getElementById("modal-date").textContent=`${d.getDate()} ${MONTHS_TH[d.getMonth()]} ${d.getFullYear()}`;
-  document.getElementById("modal-type-badge").innerHTML=cfg?`<span style="background:${cfg.bg};color:#fff;border-radius:10px;padding:2px 10px;font-size:11px">${cfg.emoji} ${cfg.label}</span>`:"";
-  const pb=document.getElementById("modal-period-btn");
-  pb.textContent=isPeriod?"🌹 ลบวันประจำเดือน":"🌹 บันทึกวันเริ่ม";
-  pb.style.background=isPeriod?"rgba(251,113,133,.15)":"rgba(244,114,182,.1)";
-  pb.style.border=`1px solid ${isPeriod?"rgba(251,113,133,.3)":"rgba(244,114,182,.2)"}`;
-  pb.style.color=isPeriod?"#fb7185":"var(--rose)";
-  document.getElementById("bbt-input").value=dd.bbt??"";
-  updateBBTHint();renderLHButtons();
-  document.getElementById("sym-grid").innerHTML=SYMPTOMS.map(s=>`
-    <button class="sym-btn${modalSyms.includes(s.id)?" active":""}" onclick="toggleSym('${s.id}')" id="sym-${s.id}">${s.emoji} ${s.label}</button>`).join("");
-  document.getElementById("note-input").value=dd.note||"";
-  renderModalCustomFields(ds);
-  document.getElementById("modal-overlay").style.display="flex";
-}
+function openModal(ds){modalDate=ds;const dd=state.dayData[ds]||{};modalLH=dd.lh??null;modalSyms=[...(dd.symptoms||[])];const fm=computeFertility();const type=fm[ds];const cfg=type?TYPE_CONFIG[type]:null;const isPeriod=state.cycles.includes(ds);const dt=parseD(ds);document.getElementById("modal-date").textContent=`${dt.getDate()} ${MONTHS_TH[dt.getMonth()]} ${dt.getFullYear()}`;document.getElementById("modal-type-badge").innerHTML=cfg?`<span style="background:${cfg.bg};color:#fff;border-radius:10px;padding:2px 10px;font-size:11px">${cfg.emoji} ${cfg.label}</span>`:"";const pb=document.getElementById("modal-period-btn");pb.textContent=isPeriod?"🌹 ลบวันเริ่ม":"🌹 บันทึกวันเริ่ม";pb.style.cssText=`background:${isPeriod?"rgba(251,113,133,.15)":"rgba(244,114,182,.1)"};border:1px solid ${isPeriod?"rgba(251,113,133,.3)":"rgba(244,114,182,.2)"};color:${isPeriod?"#fb7185":"var(--rose)"}`;document.getElementById("bbt-input").value=dd.bbt??"";document.getElementById("weight-input").value=dd.weight??"";updateBBTHint();renderLHBtns();document.getElementById("sym-grid").innerHTML=SYMPTOMS.map(s=>`<button class="sym-btn${modalSyms.includes(s.id)?" active":""}" onclick="toggleSym('${s.id}')" id="sym-${s.id}">${s.emoji} ${s.label}</button>`).join("");renderModalCF(ds);document.getElementById("note-input").value=dd.note||"";document.getElementById("modal-overlay").style.display="flex";}
 function closeModal(){document.getElementById("modal-overlay").style.display="none";modalDate=null;}
-
-function updateBBTHint(){
-  const v=parseFloat(document.getElementById("bbt-input").value);
-  const hint=document.getElementById("bbt-hint");
-  if(!isNaN(v))hint.innerHTML=`<span style="color:${v>=36.6?"#f59e0b":"var(--text3)"}">${v>=36.6?"📈 อุณหภูมิสูง — อาจผ่านวันไข่ตกแล้ว":"📉 อุณหภูมิปกติ"}</span>`;
-  else hint.innerHTML="";
-}
+function updateBBTHint(){const v=parseFloat(document.getElementById("bbt-input").value);const h=document.getElementById("bbt-hint");if(!isNaN(v))h.innerHTML=`<span style="color:${v>=36.6?"#f59e0b":"var(--txt3)"}">${v>=36.6?"📈 อุณหภูมิสูง — ผ่านวันไข่ตกแล้ว":"📉 อุณหภูมิปกติ"}</span>`;else h.innerHTML="";}
 document.getElementById("bbt-input").addEventListener("input",updateBBTHint);
-
-function setLH(val){modalLH=val;renderLHButtons();}
-function renderLHButtons(){
-  const map={null:"lh-none","negative":"lh-negative","positive":"lh-positive","peak":"lh-peak"};
-  const ac={null:"","negative":"active-neg","positive":"active-pos","peak":"active-peak"};
-  ["lh-none","lh-negative","lh-positive","lh-peak"].forEach(id=>{
-    const b=document.getElementById(id);b.className="lh-btn";
-    if(map[String(modalLH)]===id)b.classList.add(ac[modalLH]);
-  });
-}
-function toggleSym(id){
-  if(modalSyms.includes(id))modalSyms=modalSyms.filter(s=>s!==id);else modalSyms.push(id);
-  document.getElementById("sym-"+id).classList.toggle("active",modalSyms.includes(id));
-}
-function togglePeriodFromModal(){
-  const ds=modalDate;
-  if(state.cycles.includes(ds))state.cycles=state.cycles.filter(d=>d!==ds);
-  else state.cycles=[...state.cycles,ds].sort();
-  saveLocal();autoSync();renderAll();
-  const isPeriod=state.cycles.includes(ds);
-  const pb=document.getElementById("modal-period-btn");
-  pb.textContent=isPeriod?"🌹 ลบวันประจำเดือน":"🌹 บันทึกวันเริ่ม";
-  pb.style.background=isPeriod?"rgba(251,113,133,.15)":"rgba(244,114,182,.1)";
-  pb.style.color=isPeriod?"#fb7185":"var(--rose)";
-  toast(isPeriod?"🌹 บันทึกวันประจำเดือนแล้ว":"🗑️ ลบออกแล้ว");
-}
-function saveModal(){
-  if(!modalDate)return;
-  const bbtVal=parseFloat(document.getElementById("bbt-input").value);
-  const noteVal=document.getElementById("note-input").value.trim();
-  const data={};
-  if(!isNaN(bbtVal))data.bbt=bbtVal;
-  if(modalLH!==null)data.lh=modalLH;
-  if(modalSyms.length)data.symptoms=[...modalSyms];
-  if(noteVal)data.note=noteVal;
-  const cfVals=collectCFValues();
-  if(Object.keys(cfVals).length)data.custom=cfVals;
-  if(Object.keys(data).length)state.dayData[modalDate]={...(state.dayData[modalDate]||{}),...data};
-  else delete state.dayData[modalDate];
-  saveLocal();autoSync();renderAll();closeModal();toast("💾 บันทึกแล้ว ✨");
-}
-
-// ════════════════════ BBT CHART ════════════════════
-function renderBBT(){
-  const fm=computeFertility();
-  const entries=Object.entries(state.dayData).filter(([,v])=>v.bbt!=null).sort(([a],[b])=>a.localeCompare(b)).slice(-30);
-  const canvas=document.getElementById("bbt-canvas");
-  const wrap=document.getElementById("bbt-canvas-wrap");
-  canvas.width=wrap.offsetWidth*devicePixelRatio;canvas.height=wrap.offsetHeight*devicePixelRatio;
-  const ctx=canvas.getContext("2d");ctx.scale(devicePixelRatio,devicePixelRatio);
-  const W=wrap.offsetWidth,H=wrap.offsetHeight;ctx.clearRect(0,0,W,H);
-  if(entries.length<2){
-    ctx.fillStyle="#c084a8";ctx.font="13px 'Noto Sans Thai',sans-serif";ctx.textAlign="center";
-    ctx.fillText("บันทึก BBT อย่างน้อย 2 วัน เพื่อดูกราฟ",W/2,H/2);
-    document.getElementById("lh-history").innerHTML=`<p style="color:var(--text3);font-size:13px">ยังไม่มีผล LH บวก</p>`;return;
-  }
-  const vals=entries.map(([,v])=>v.bbt);
-  const minV=Math.min(...vals)-.15,maxV=Math.max(...vals)+.15;
-  const pd={l:42,r:10,t:12,b:30};
-  const iW=W-pd.l-pd.r,iH=H-pd.t-pd.b;
-  const xOf=i=>pd.l+(i/(entries.length-1))*iW;
-  const yOf=v=>pd.t+(1-(v-minV)/(maxV-minV))*iH;
-  // Grid
-  ctx.strokeStyle="rgba(244,114,182,.1)";ctx.lineWidth=1;
-  for(let i=0;i<=4;i++){const y=pd.t+(i/4)*iH;ctx.beginPath();ctx.moveTo(pd.l,y);ctx.lineTo(W-pd.r,y);ctx.stroke();
-    ctx.fillStyle="#c084a8";ctx.font="9px sans-serif";ctx.textAlign="right";
-    ctx.fillText((minV+(maxV-minV)*(1-i/4)).toFixed(2),pd.l-4,y+3);}
-  // Avg
-  const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
-  ctx.strokeStyle="rgba(245,158,11,.4)";ctx.lineWidth=1;ctx.setLineDash([4,3]);
-  ctx.beginPath();ctx.moveTo(pd.l,yOf(avg));ctx.lineTo(W-pd.r,yOf(avg));ctx.stroke();ctx.setLineDash([]);
-  // Area fill
-  const grad=ctx.createLinearGradient(0,pd.t,0,H-pd.b);
-  grad.addColorStop(0,"rgba(244,114,182,.15)");grad.addColorStop(1,"rgba(244,114,182,.02)");
-  ctx.beginPath();ctx.moveTo(xOf(0),yOf(vals[0]));
-  entries.forEach(([,v],i)=>{if(i>0)ctx.lineTo(xOf(i),yOf(v.bbt));});
-  ctx.lineTo(xOf(entries.length-1),H-pd.b);ctx.lineTo(xOf(0),H-pd.b);ctx.closePath();
-  ctx.fillStyle=grad;ctx.fill();
-  // Line
-  ctx.strokeStyle="#f472b6";ctx.lineWidth=2.5;
-  ctx.beginPath();entries.forEach(([,v],i)=>{i===0?ctx.moveTo(xOf(i),yOf(v.bbt)):ctx.lineTo(xOf(i),yOf(v.bbt));});ctx.stroke();
-  // Dots
-  entries.forEach(([ds,v],i)=>{
-    const type=fm[ds];
-    const color=type==="ovulation"?"#f59e0b":type==="fertile"?"#34d399":type==="period"?"#fb7185":"#f472b6";
-    ctx.beginPath();ctx.arc(xOf(i),yOf(v.bbt),5,0,Math.PI*2);
-    ctx.fillStyle=color;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.stroke();
-  });
-  // X labels
-  ctx.fillStyle="#c084a8";ctx.textAlign="center";ctx.font="9px sans-serif";
-  entries.forEach(([ds],i)=>{if(i%5===0||i===entries.length-1)ctx.fillText(ds.slice(5),xOf(i),H-pd.b+14);});
-  document.getElementById("bbt-legend").innerHTML=
-    [{c:"#fb7185",l:"ประจำเดือน"},{c:"#34d399",l:"เจริญพันธุ์"},{c:"#f59e0b",l:"ไข่ตก"},{c:"#f472b6",l:"ปกติ"}]
-    .map(({c,l})=>`<div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:${c}"></div>${l}</div>`).join("");
-  const lhDays=Object.entries(state.dayData).filter(([,v])=>v.lh==="positive"||v.lh==="peak").sort(([a],[b])=>a.localeCompare(b));
-  document.getElementById("lh-history").innerHTML=lhDays.length===0
-    ?`<p style="color:var(--text3);font-size:13px">ยังไม่มีผล LH บวก</p>`
-    :lhDays.map(([d,v])=>`<div class="lh-row"><span style="color:var(--text2)">${d}</span><span style="color:${v.lh==="peak"?"#f59e0b":"#34d399"};font-weight:600">${v.lh==="peak"?"⭐ สูงสุด":"✅ บวก"}</span></div>`).join("");
-}
-
-// ════════════════════ STATS ════════════════════
-function renderStats(){
-  const fm=computeFertility();const ts=todayStr();const t=today();const avg=getAvgCycle();
-  const upF=Object.entries(fm).filter(([d,t2])=>d>=ts&&(t2==="fertile"||t2==="ovulation")).sort(([a],[b])=>a.localeCompare(b));
-  const nextF=upF[0]?.[0];const nextOv=upF.find(([,t2])=>t2==="ovulation")?.[0];
-  const dF=nextF?diffDays(t,parseD(nextF)):null;
-  document.getElementById("stat-grid").innerHTML=[
-    ["รอบเดือนเฉลี่ย",`${avg} วัน`,"#e879f9"],
-    ["บันทึกแล้ว",`${state.cycles.length} รอบ`,"#34d399"],
-    ["วัน BBT",`${Object.values(state.dayData).filter(v=>v.bbt!=null).length} วัน`,"#f59e0b"],
-    ["LH บวก",`${Object.values(state.dayData).filter(v=>v.lh==="positive"||v.lh==="peak").length} ครั้ง`,"#f59e0b"],
-    ["ไข่ตกถัดไป",nextOv||"-","#f59e0b"],
-    ["เจริญพันธุ์ใน",dF!=null?`${dF} วัน`:"-","#34d399"],
-  ].map(([l,v,c])=>`<div class="stat-cell"><div class="sv" style="color:${c}">${v}</div><div class="sl">${l}</div></div>`).join("");
-  const symCount={};
-  Object.values(state.dayData).forEach(({symptoms:s=[]})=>s.forEach(id=>{symCount[id]=(symCount[id]||0)+1;}));
-  const maxC=Math.max(1,...Object.values(symCount));
-  document.getElementById("sym-bars").innerHTML=SYMPTOMS.filter(s=>symCount[s.id]).sort((a,b)=>(symCount[b.id]||0)-(symCount[a.id]||0))
-    .map(s=>`<div class="sym-bar-row"><span class="emoji">${s.emoji}</span><span class="name">${s.label}</span><div class="sym-bar-track"><div class="sym-bar-fill" style="width:${Math.round((symCount[s.id]/maxC)*100)}%"></div></div><span class="sym-bar-count">${symCount[s.id]}</span></div>`).join("")
-    ||`<p style="color:var(--text3);font-size:13px">ยังไม่มีข้อมูลอาการ</p>`;
-  const sorted=[...state.cycles].sort().reverse();
-  document.getElementById("period-history").innerHTML=sorted.length===0
-    ?`<p style="color:var(--text3);font-size:13px">ยังไม่มีข้อมูล</p>`
-    :sorted.map((d,i,arr)=>{
-        const prev=arr[i+1];const diff=prev?diffDays(parseD(prev),parseD(d)):null;
-        return `<div class="period-row"><span style="color:#fb7185;font-weight:600">🌹 ${d}</span>${diff?`<span style="color:${diff<21||diff>35?"#f59e0b":"var(--text3)"}">รอบ ${diff} วัน</span>`:""}<button class="del-btn" onclick="removePeriod('${d}')">ลบ</button></div>`;
-      }).join("");
-}
+function setLH(v){modalLH=v;renderLHBtns();}
+function renderLHBtns(){const m={null:"lh-none","negative":"lh-negative","positive":"lh-positive","peak":"lh-peak"};const a={null:"","negative":"active-neg","positive":"active-pos","peak":"active-peak"};["lh-none","lh-negative","lh-positive","lh-peak"].forEach(id=>{const b=document.getElementById(id);b.className="lh-btn";if(m[String(modalLH)]===id)b.classList.add(a[modalLH]);});}
+function toggleSym(id){if(modalSyms.includes(id))modalSyms=modalSyms.filter(s=>s!==id);else modalSyms.push(id);document.getElementById("sym-"+id).classList.toggle("active",modalSyms.includes(id));}
+function togglePeriodFromModal(){const ds=modalDate;if(state.cycles.includes(ds))state.cycles=state.cycles.filter(d=>d!==ds);else state.cycles=[...state.cycles,ds].sort();saveLocal();autoSync();renderAll();const ip=state.cycles.includes(ds);const pb=document.getElementById("modal-period-btn");pb.textContent=ip?"🌹 ลบวันเริ่ม":"🌹 บันทึกวันเริ่ม";pb.style.cssText=`background:${ip?"rgba(251,113,133,.15)":"rgba(244,114,182,.1)"};border:1px solid ${ip?"rgba(251,113,133,.3)":"rgba(244,114,182,.2)"};color:${ip?"#fb7185":"var(--rose)"}`;toast(ip?"🌹 บันทึกแล้ว":"🗑️ ลบแล้ว");}
+function saveModal(){if(!modalDate)return;const bbt=parseFloat(document.getElementById("bbt-input").value);const weight=parseFloat(document.getElementById("weight-input").value);const note=document.getElementById("note-input").value.trim();const data={};if(!isNaN(bbt))data.bbt=bbt;if(!isNaN(weight))data.weight=weight;if(modalLH!==null)data.lh=modalLH;if(modalSyms.length)data.symptoms=[...modalSyms];if(note)data.note=note;const cfv=collectCFValues();if(Object.keys(cfv).length)data.custom=cfv;if(Object.keys(data).length)state.dayData[modalDate]={...(state.dayData[modalDate]||{}),...data};else delete state.dayData[modalDate];saveLocal();autoSync();renderAll();closeModal();toast("💾 บันทึกแล้ว ✨");}
+function renderReminders(){const r=state.reminders;document.getElementById("reminder-list").innerHTML=`<div class="reminder-row"><div class="rem-icon">🌡️</div><div class="rem-info"><div class="rem-title">วัด BBT ทุกเช้า</div><div class="rem-sub">แจ้งเตือนก่อนลุกจากเตียง</div></div><input type="time" class="rem-time" value="${r.bbt?.time||"07:00"}" onchange="updateRemTime('bbt',this.value)"/><button class="rem-toggle ${r.bbt?.on?"on":"off"}" onclick="toggleRem('bbt')"></button></div><div class="reminder-row"><div class="rem-icon">🌿</div><div class="rem-info"><div class="rem-title">ใกล้วันเจริญพันธุ์</div><div class="rem-sub">แจ้งเตือนล่วงหน้า 2 วัน</div></div><button class="rem-toggle ${r.fertile?.on?"on":"off"}" onclick="toggleRem('fertile')"></button></div><div class="reminder-row"><div class="rem-icon">🌹</div><div class="rem-info"><div class="rem-title">ใกล้วันประจำเดือน</div><div class="rem-sub">แจ้งเตือนล่วงหน้า 3 วัน</div></div><button class="rem-toggle ${r.period?.on?"on":"off"}" onclick="toggleRem('period')"></button></div>`;}
+function toggleRem(key){if(!state.reminders)state.reminders={};if(!state.reminders[key])state.reminders[key]={on:false};state.reminders[key].on=!state.reminders[key].on;if(state.reminders[key].on)requestNotifPermission();saveLocal();renderReminders();}
+function updateRemTime(key,val){if(!state.reminders[key])state.reminders[key]={};state.reminders[key].time=val;saveLocal();}
+async function requestNotifPermission(){if("Notification" in window&&Notification.permission!=="granted"){const p=await Notification.requestPermission();if(p==="granted")toast("🔔 เปิดรับแจ้งเตือนแล้ว");else toast("⚠️ ไม่ได้รับอนุญาตแจ้งเตือน");}}
+function scheduleNotifications(){if(!("Notification" in window)||Notification.permission!=="granted")return;const r=state.reminders||{};const fm=computeFertility();const t=today();if(r.bbt?.on){const[h,m]=(r.bbt.time||"07:00").split(":").map(Number);const next=new Date(t);next.setHours(h,m,0,0);if(next<=t)next.setDate(next.getDate()+1);setTimeout(()=>new Notification("🌡️ Bloom",{body:"อย่าลืมวัด BBT ก่อนลุกจากเตียงนะคะ 🌸"}),next-t);}if(r.fertile?.on){const in2=fmtDate(addDays(t,2));if(fm[in2]==="fertile"||fm[in2]==="ovulation")new Notification("🌿 Bloom",{body:"อีก 2 วันคือช่วงเจริญพันธุ์ เตรียมตัวได้เลยนะคะ 💕"});}if(r.period?.on){const sorted=[...state.cycles].sort();if(sorted.length){const last=parseD(sorted[sorted.length-1]);const next=addDays(last,getAvgCycle());if(diffDays(t,next)===3)new Notification("🌹 Bloom",{body:"อีก 3 วันประจำเดือนน่าจะมาแล้วนะคะ 🌹"});}}}
+function renderVitamins(){const ts2=ts();const dd=state.dayData[ts2]||{};const taken=dd.vitamins||[];document.getElementById("vit-grid").innerHTML=(state.vitamins||[]).map(v=>`<button class="vit-card${taken.includes(v.id)?" taken":""}" onclick="toggleVitamin('${v.id}')"><div class="vit-emoji">${v.id==="folate"?"💊":v.id==="iron"?"🩸":v.id==="calcium"?"🦷":"🐟"}</div><div class="vit-name">${v.name}</div><div class="vit-dose">${v.dose}</div><div class="vit-check">${taken.includes(v.id)?"✅":"⬜"}</div></button>`).join("");const days=[];for(let i=6;i>=0;i--)days.push(fmtDate(addDays(today(),-i)));document.getElementById("vit-history").innerHTML=`<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px"><thead><tr><th style="padding:4px;text-align:left;color:var(--txt3)">วิตามิน</th>${days.map(d=>`<th style="padding:4px;text-align:center;color:var(--txt3)">${d.slice(8)}</th>`).join("")}</tr></thead><tbody>${(state.vitamins||[]).map(v=>`<tr><td style="padding:5px 4px;color:var(--txt2);font-weight:500">${v.name}</td>${days.map(d=>{const t2=(state.dayData[d]?.vitamins||[]).includes(v.id);return`<td style="text-align:center;padding:4px">${t2?"✅":"·"}</td>`;}).join("")}</tr>`).join("")}</tbody></table></div>`;}
+function toggleVitamin(id){const ts2=ts();if(!state.dayData[ts2])state.dayData[ts2]={};if(!state.dayData[ts2].vitamins)state.dayData[ts2].vitamins=[];const arr=state.dayData[ts2].vitamins;const idx=arr.indexOf(id);if(idx>-1)arr.splice(idx,1);else arr.push(id);saveLocal();autoSync();renderVitamins();toast(arr.includes(id)?"✅ กินแล้ว!":"⬜ ยกเลิก");}
+function logPregTest(result){if(!state.pregTests)state.pregTests=[];state.pregTests.unshift({date:ts(),result});saveLocal();autoSync();renderPregTests();if(result==="positive"){toast("🎉 ยินดีด้วยนะคะ! ควรพบแพทย์เพื่อยืนยัน 🌸",5000);}else toast(result==="faint"?"〰️ บันทึกผลจาง":"➖ บันทึกผลลบแล้ว");}
+function renderPregTests(){const map={negative:"➖ ลบ",faint:"〰️ จาง",positive:"➕ บวก! 🎉"};const col={negative:"#64748b",faint:"#d97706",positive:"#059669"};document.getElementById("preg-history").innerHTML=(state.pregTests||[]).slice(0,20).map(p=>`<div class="preg-hist-row"><span style="color:var(--txt2)">${p.date}</span><span style="color:${col[p.result]};font-weight:600">${map[p.result]}</span></div>`).join("")||`<p style="color:var(--txt3);font-size:13px">ยังไม่มีข้อมูล</p>`;}
+function renderBBT(){const fm=computeFertility();const bbtE=Object.entries(state.dayData).filter(([,v])=>v.bbt!=null).sort(([a],[b])=>a.localeCompare(b)).slice(-30);drawChart("bbt-canvas","bbt-canvas-wrap",bbtE.map(([d,v])=>({date:d,val:v.bbt,type:fm[d]})),"#f472b6");document.getElementById("bbt-legend").innerHTML=[{c:"#fb7185",l:"ประจำเดือน"},{c:"#34d399",l:"เจริญพันธุ์"},{c:"#f59e0b",l:"ไข่ตก"},{c:"#f472b6",l:"ปกติ"}].map(({c,l})=>`<div style="display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;border-radius:50%;background:${c}"></div>${l}</div>`).join("");const lhDays=Object.entries(state.dayData).filter(([,v])=>v.lh==="positive"||v.lh==="peak").sort(([a],[b])=>a.localeCompare(b));document.getElementById("lh-history").innerHTML=lhDays.length===0?`<p style="color:var(--txt3);font-size:13px">ยังไม่มีผล LH บวก</p>`:lhDays.map(([d,v])=>`<div class="lh-hist-row"><span style="color:var(--txt2)">${d}</span><span style="color:${v.lh==="peak"?"#f59e0b":"#34d399"};font-weight:600">${v.lh==="peak"?"⭐ สูงสุด":"✅ บวก"}</span></div>`).join("");const wE=Object.entries(state.dayData).filter(([,v])=>v.weight!=null).sort(([a],[b])=>a.localeCompare(b)).slice(-30);drawChart("weight-canvas","weight-canvas-wrap",wE.map(([d,v])=>({date:d,val:v.weight,type:null})),"#a78bfa");document.getElementById("bbt-tips").innerHTML=["วัดทุกเช้าทันทีหลังตื่น ก่อนลุกจากเตียง","ใช้ปรอทวัดไข้แบบ 2 ตำแหน่งทศนิยม","วัดเวลาเดิมทุกวัน นอนต่อเนื่องอย่างน้อย 3-4 ชม.","BBT จะสูงขึ้น ~0.2-0.5°C หลังจากไข่ตก"].map((t,i)=>`<div class="bbt-tip-row"><div class="bbt-tip-num">${i+1}</div><p style="margin:0;font-size:12px;color:var(--txt2);line-height:1.7">${t}</p></div>`).join("");}
+function drawChart(cid,wid,data,lc){const canvas=document.getElementById(cid);const wrap=document.getElementById(wid);canvas.width=wrap.offsetWidth*devicePixelRatio;canvas.height=wrap.offsetHeight*devicePixelRatio;const ctx=canvas.getContext("2d");ctx.scale(devicePixelRatio,devicePixelRatio);const W=wrap.offsetWidth,H=wrap.offsetHeight;ctx.clearRect(0,0,W,H);if(data.length<2){ctx.fillStyle="#c084a8";ctx.font="12px sans-serif";ctx.textAlign="center";ctx.fillText("บันทึกอย่างน้อย 2 วัน เพื่อดูกราฟ",W/2,H/2);return;}const vals=data.map(d=>d.val);const minV=Math.min(...vals)-.1,maxV=Math.max(...vals)+.1;const pd={l:40,r:10,t:10,b:28};const iW=W-pd.l-pd.r,iH=H-pd.t-pd.b;const xOf=i=>pd.l+(i/(data.length-1))*iW;const yOf=v=>pd.t+(1-(v-minV)/(maxV-minV))*iH;ctx.strokeStyle="rgba(244,114,182,.08)";ctx.lineWidth=1;for(let i=0;i<=3;i++){const y=pd.t+(i/3)*iH;ctx.beginPath();ctx.moveTo(pd.l,y);ctx.lineTo(W-pd.r,y);ctx.stroke();ctx.fillStyle="#c084a8";ctx.font="9px sans-serif";ctx.textAlign="right";ctx.fillText((minV+(maxV-minV)*(1-i/3)).toFixed(1),pd.l-3,y+3);}const avg=vals.reduce((a,b)=>a+b,0)/vals.length;ctx.strokeStyle="rgba(245,158,11,.35)";ctx.setLineDash([4,3]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pd.l,yOf(avg));ctx.lineTo(W-pd.r,yOf(avg));ctx.stroke();ctx.setLineDash([]);const grad=ctx.createLinearGradient(0,pd.t,0,H);grad.addColorStop(0,lc+"28");grad.addColorStop(1,lc+"04");ctx.beginPath();ctx.moveTo(xOf(0),yOf(vals[0]));data.forEach((_,i)=>{if(i>0)ctx.lineTo(xOf(i),yOf(vals[i]));});ctx.lineTo(xOf(data.length-1),H-pd.b);ctx.lineTo(xOf(0),H-pd.b);ctx.closePath();ctx.fillStyle=grad;ctx.fill();ctx.strokeStyle=lc;ctx.lineWidth=2;ctx.beginPath();data.forEach((_,i)=>{i===0?ctx.moveTo(xOf(i),yOf(vals[i])):ctx.lineTo(xOf(i),yOf(vals[i]));});ctx.stroke();data.forEach((d,i)=>{const c=d.type==="ovulation"?"#f59e0b":d.type==="fertile"?"#34d399":d.type==="period"?"#fb7185":lc;ctx.beginPath();ctx.arc(xOf(i),yOf(vals[i]),4,0,Math.PI*2);ctx.fillStyle=c;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=1.5;ctx.stroke();});ctx.fillStyle="#c084a8";ctx.textAlign="center";ctx.font="9px sans-serif";data.forEach((d,i)=>{if(i%5===0||i===data.length-1)ctx.fillText(d.date.slice(5),xOf(i),H-pd.b+13);});}
+function renderStats(){const fm=computeFertility();const t=today();const avg=getAvgCycle();const upF=Object.entries(fm).filter(([d,t2])=>d>=ts()&&(t2==="fertile"||t2==="ovulation")).sort(([a],[b])=>a.localeCompare(b));const nF=upF[0]?.[0];const nOv=upF.find(([,t2])=>t2==="ovulation")?.[0];const dF=nF?diffDays(t,parseD(nF)):null;const weights=Object.values(state.dayData).filter(v=>v.weight!=null).map(v=>v.weight);const lastW=weights.length?weights[weights.length-1]:null;document.getElementById("stat-grid").innerHTML=[["รอบเดือนเฉลี่ย",`${avg} วัน`,"#e879f9"],["บันทึกแล้ว",`${state.cycles.length} รอบ`,"#34d399"],["วัน BBT",`${Object.values(state.dayData).filter(v=>v.bbt!=null).length} วัน`,"#f59e0b"],["LH บวก",`${Object.values(state.dayData).filter(v=>v.lh==="positive"||v.lh==="peak").length} ครั้ง`,"#f59e0b"],["ไข่ตกถัดไป",nOv||"-","#f59e0b"],["เจริญพันธุ์ใน",dF!=null?`${dF} วัน`:"-","#34d399"],["น้ำหนักล่าสุด",lastW?`${lastW} kg`:"-","#a78bfa"],["ทดสอบตั้งครรภ์",`${(state.pregTests||[]).length} ครั้ง`,"#fb7185"]].map(([l,v,c])=>`<div class="stat-cell"><div class="sv" style="color:${c}">${v}</div><div class="sl">${l}</div></div>`).join("");const symCount={};Object.values(state.dayData).forEach(({symptoms:s=[]})=>s.forEach(id=>{symCount[id]=(symCount[id]||0)+1;}));const maxC=Math.max(1,...Object.values(symCount));document.getElementById("sym-bars").innerHTML=SYMPTOMS.filter(s=>symCount[s.id]).sort((a,b)=>(symCount[b.id]||0)-(symCount[a.id]||0)).map(s=>`<div class="sym-bar-row"><span class="emoji">${s.emoji}</span><span class="name">${s.label}</span><div class="sym-bar-track"><div class="sym-bar-fill" style="width:${Math.round((symCount[s.id]/maxC)*100)}%"></div></div><span class="sym-bar-count">${symCount[s.id]}</span></div>`).join("")||`<p style="color:var(--txt3);font-size:13px">ยังไม่มีข้อมูลอาการ</p>`;const sorted=[...state.cycles].sort().reverse();document.getElementById("period-history").innerHTML=sorted.length===0?`<p style="color:var(--txt3);font-size:13px">ยังไม่มีข้อมูล</p>`:sorted.map((d,i,arr)=>{const prev=arr[i+1];const diff=prev?diffDays(parseD(prev),parseD(d)):null;return`<div class="period-row"><span style="color:#fb7185;font-weight:600">🌹 ${d}</span>${diff?`<span style="color:${diff<21||diff>35?"#f59e0b":"var(--txt3)"}">รอบ ${diff} วัน</span>`:""}<button class="del-btn" onclick="removePeriod('${d}')">ลบ</button></div>`;}).join("");}
 function removePeriod(ds){state.cycles=state.cycles.filter(d=>d!==ds);saveLocal();autoSync();renderAll();if(currentTab==="stats")renderStats();toast("🗑️ ลบแล้ว");}
-
-// ════════════════════ TIPS ════════════════════
-function renderTips(){
-  const tips=[
-    {emoji:"⭐",title:"วันไข่ตก — โอกาสสูงสุด",color:"#f59e0b",list:["มีเพศสัมพันธ์วันไข่ตก และ 1-2 วันก่อน","ไข่มีชีวิต 12-24 ชม. อสุจิมีชีวิต 3-5 วัน","มูกใสยืดได้คล้ายไข่ขาวดิบ = ใกล้ไข่ตก","BBT สูงขึ้น ~0.2°C หลังไข่ตก"]},
-    {emoji:"🌡️",title:"วัด BBT ให้ถูกต้อง",color:"#e879f9",list:["วัดทันทีหลังตื่น ก่อนลุกจากเตียง","ใช้เวลาเดิมทุกวัน ± 30 นาที","นอนต่อเนื่องอย่างน้อย 3-4 ชม.","บันทึกทุกวันเพื่อเห็น pattern ชัดเจน"]},
-    {emoji:"🧪",title:"ใช้ LH Test ให้ได้ผล",color:"#34d399",list:["ทดสอบช่วงบ่าย 14.00-16.00 น.","เริ่มทดสอบประมาณวันที่ 10-12 ของรอบ","ไข่ตกประมาณ 12-36 ชม. หลัง LH บวก"]},
-    {emoji:"🥗",title:"โภชนาการ & ไลฟ์สไตล์",color:"#a78bfa",list:["รับประทานโฟเลต 400 mcg/วัน","หลีกเลี่ยงแอลกอฮอล์ บุหรี่ ความเครียด","ควบคุม BMI 18.5-24.9","นอนหลับ 7-8 ชม./คืน"]},
-    {emoji:"🏥",title:"เมื่อไรควรพบแพทย์",color:"#fb7185",list:["พยายาม > 12 เดือน (อายุ < 35 ปี)","พยายาม > 6 เดือน (อายุ ≥ 35 ปี)","รอบเดือนผิดปกติ < 21 หรือ > 35 วัน"]},
-  ];
-  document.getElementById("page-tips").innerHTML=tips.map(({emoji,title,color,list})=>`
-    <div class="tip-card" style="border-color:${color}30">
-      <div class="tip-title" style="color:${color}">${emoji} ${title}</div>
-      <ul>${list.map(t=>`<li>${t}</li>`).join("")}</ul>
-    </div>`).join("")+`<div class="disclaimer">⚠️ ข้อมูลนี้เป็นเพียงการศึกษาเบื้องต้น ไม่ใช่คำแนะนำทางการแพทย์ ควรปรึกษาแพทย์เพื่อการวางแผนที่เหมาะสม</div>`;
-  document.getElementById("bbt-tips").innerHTML=["วัดทุกเช้าทันทีหลังตื่น ก่อนลุกจากเตียง","ใช้ปรอทวัดไข้แบบ 2 ตำแหน่งทศนิยม","วัดเวลาเดิมทุกวัน นอนต่อเนื่องอย่างน้อย 3-4 ชม.","BBT จะสูงขึ้น ~0.2-0.5°C หลังจากไข่ตก"]
-    .map((t,i)=>`<div class="bbt-tip-row"><div class="bbt-tip-num">${i+1}</div><p style="margin:0;font-size:12px;color:var(--text2);line-height:1.7">${t}</p></div>`).join("");
-}
-
-
-// ════════════════════ CUSTOM FIELDS ════════════════════
-function renderCustomFieldsPage(){
-  const fields = state.customFields||[];
-  // Render field manager
-  document.getElementById("cf-list").innerHTML = fields.length===0
-    ? `<p style="color:var(--text3);font-size:13px;margin-bottom:10px">ยังไม่มี field — กดเพิ่มด้านล่างได้เลย</p>`
-    : fields.map((f,i)=>`
-      <div class="cf-manage-row">
-        <input value="${f.name}" oninput="updateCFName(${i},this.value)" placeholder="ชื่อ field"/>
-        <select class="cf-type-sel" onchange="updateCFType(${i},this.value)">
-          <option value="text" ${f.type==='text'?'selected':''}>✏️ ข้อความ</option>
-          <option value="number" ${f.type==='number'?'selected':''}>🔢 ตัวเลข</option>
-          <option value="check" ${f.type==='check'?'selected':''}>✅ เช็ค</option>
-        </select>
-        <button class="cf-del-btn" onclick="deleteCF(${i})">✕</button>
-      </div>`).join("");
-
-  // Render history (last 14 days)
-  const today14 = [];
-  for(let i=13;i>=0;i--) today14.push(fmtDate(addDays(today(),-i)));
-  if(fields.length===0){
-    document.getElementById("cf-history").innerHTML=`<p style="color:var(--text3);font-size:13px">เพิ่ม field ก่อนเพื่อดูประวัติ</p>`;return;
-  }
-  const histHTML = today14.filter(d=>state.dayData[d]&&Object.keys(state.dayData[d].custom||{}).length>0).reverse().map(d=>{
-    const custom = state.dayData[d]?.custom||{};
-    const vals = fields.filter(f=>custom[f.id]!=null).map(f=>{
-      const v=custom[f.id];
-      const display = f.type==='check'?(v?'✅':'☐'):`${v}`;
-      return `<span style="color:var(--text2)">${f.name}: <strong>${display}</strong></span>`;
-    }).join(' · ');
-    return vals ? `<div class="cf-history-row"><span style="color:var(--rose);font-weight:600">${d}</span><span style="font-size:11px">${vals}</span></div>` : '';
-  }).filter(Boolean).join('');
-  document.getElementById("cf-history").innerHTML = histHTML||`<p style="color:var(--text3);font-size:13px">ยังไม่มีข้อมูลใน 14 วันล่าสุด</p>`;
-}
-
-function addCustomField(){
-  if(!state.customFields) state.customFields=[];
-  const id = 'cf_'+Date.now();
-  state.customFields.push({id,name:'Field ใหม่',type:'text'});
-  saveLocal();autoSync();renderCustomFieldsPage();
-}
-function updateCFName(i,name){state.customFields[i].name=name;saveLocal();autoSync();}
-function updateCFType(i,type){state.customFields[i].type=type;saveLocal();autoSync();}
-function deleteCF(i){
-  state.customFields.splice(i,1);
-  saveLocal();autoSync();renderCustomFieldsPage();toast('🗑️ ลบ field แล้ว');
-}
-
-function renderModalCustomFields(ds){
-  const fields = state.customFields||[];
-  if(!fields.length){document.getElementById("modal-custom-fields").innerHTML="";return;}
-  const dd = state.dayData[ds]||{};
-  const custom = dd.custom||{};
-  const html = `<div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-    <label class="modal-label">🗂️ บันทึกพิเศษ</label>
-    ${fields.map(f=>{
-      const val = custom[f.id];
-      if(f.type==='check') return `
-        <div class="cf-field-wrap">
-          <button class="cf-check-btn${val?' checked':''}" onclick="toggleCFCheck('${f.id}',this)" id="cfc-${f.id}">
-            <div class="cf-check-icon">${val?'✓':''}</div>${f.name}
-          </button>
-        </div>`;
-      if(f.type==='number') return `
-        <div class="cf-field-wrap">
-          <label class="cf-field-label">${f.name}</label>
-          <div class="cf-num-wrap">
-            <input type="number" class="cf-num-input" id="cfv-${f.id}" value="${val??''}" placeholder="0" step="0.1"/>
-          </div>
-        </div>`;
-      return `
-        <div class="cf-field-wrap">
-          <label class="cf-field-label">${f.name}</label>
-          <input type="text" class="cf-text-input" id="cfv-${f.id}" value="${val??''}" placeholder="พิมพ์..."/>
-        </div>`;
-    }).join('')}
-  </div>`;
-  document.getElementById("modal-custom-fields").innerHTML = html;
-}
-
-function toggleCFCheck(id, btn){
-  btn.classList.toggle('checked');
-  const checked = btn.classList.contains('checked');
-  btn.querySelector('.cf-check-icon').textContent = checked?'✓':'';
-}
-
-function collectCFValues(){
-  const fields = state.customFields||[];
-  const result={};
-  fields.forEach(f=>{
-    if(f.type==='check'){
-      const btn=document.getElementById("cfc-"+f.id);
-      if(btn) result[f.id]=btn.classList.contains('checked');
-    } else {
-      const inp=document.getElementById("cfv-"+f.id);
-      if(inp&&inp.value.trim()!==''){
-        result[f.id]=f.type==='number'?parseFloat(inp.value):inp.value.trim();
-      }
-    }
-  });
-  return result;
-}
-
-
-// ════════════════════ BACKFILL ════════════════════
-let backfillSelected = null;
-
-function renderBackfillPage(){
-  const t = today();
-  const days = [];
-  for(let i=1;i<=30;i++) days.push(fmtDate(addDays(t,-i)));
-
-  // Quick select buttons (last 14 days)
-  const DAYS_FULL=["อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัส","ศุกร์","เสาร์"];
-  document.getElementById("bq-days").innerHTML = days.slice(0,14).map(d=>{
-    const dt=parseD(d); const label=`${DAYS_FULL[dt.getDay()]} ${dt.getDate()}/${dt.getMonth()+1}`;
-    const fm=computeFertility(); const type=fm[d]; const cfg=type?TYPE_CONFIG[type]:null;
-    const hasPeriod=state.cycles.includes(d);
-    const hasData=state.dayData[d]&&Object.keys(state.dayData[d]).length>0;
-    return `<button class="bq-btn${backfillSelected===d?' selected':''}"
-      style="${cfg?`border-color:${cfg.bg};color:${cfg.bg}`:''}"
-      onclick="selectBackfillDate('${d}')">
-      ${hasPeriod?'🌹 ':''}${hasData?'✦ ':''}${label}
-    </button>`;
-  }).join('');
-
-  // Set date input max to yesterday
-  const inp = document.getElementById("backfill-date-input");
-  inp.max = fmtDate(addDays(t,-1));
-  inp.min = fmtDate(addDays(t,-365));
-  if(backfillSelected) inp.value = backfillSelected;
-
-  if(backfillSelected) renderBackfillPreview(backfillSelected);
-  else document.getElementById("backfill-preview").style.display="none";
-}
-
-function selectBackfillDate(ds){
-  if(!ds) return;
-  backfillSelected = ds;
-  document.getElementById("backfill-date-input").value = ds;
-  // Update button styles
-  document.querySelectorAll(".bq-btn").forEach(b=>{
-    b.classList.toggle("selected", b.textContent.includes(ds.slice(8)) && b.onclick?.toString().includes(ds));
-  });
-  renderBackfillPreview(ds);
-}
-
-function renderBackfillPreview(ds){
-  const dd = state.dayData[ds]||{};
-  const fm = computeFertility(); const type=fm[ds]; const cfg=type?TYPE_CONFIG[type]:null;
-  const isPeriod = state.cycles.includes(ds);
-  const dt = parseD(ds);
-  const MONTHS=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
-
-  const wrap = document.getElementById("backfill-preview");
-  const title = document.getElementById("backfill-preview-title");
-  const cont = document.getElementById("backfill-preview-content");
-  wrap.style.display="block";
-  title.innerHTML = `${dt.getDate()} ${MONTHS[dt.getMonth()]} ${dt.getFullYear()} ${cfg?`<span style="background:${cfg.bg};color:#fff;border-radius:8px;padding:1px 8px;font-size:11px;margin-left:4px">${cfg.emoji} ${cfg.label}</span>`:''}`;
-
-  const items = [];
-  if(isPeriod) items.push(`<div style="display:flex;align-items:center;gap:6px;padding:8px 10px;background:rgba(251,113,133,.1);border:1px solid rgba(251,113,133,.2);border-radius:10px;margin-bottom:6px;font-size:12px;color:#fb7185;font-weight:600">🌹 บันทึกเป็นวันเริ่มประจำเดือน</div>`);
-  if(dd.bbt) items.push(`<div style="padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);margin-bottom:5px">🌡️ BBT: <strong>${dd.bbt}°C</strong></div>`);
-  if(dd.lh) items.push(`<div style="padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);margin-bottom:5px">🧪 LH: <strong>${dd.lh==='peak'?'⭐ สูงสุด':dd.lh==='positive'?'✅ บวก':'ลบ'}</strong></div>`);
-  if((dd.symptoms||[]).length) items.push(`<div style="padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);margin-bottom:5px">😊 อาการ: ${dd.symptoms.map(id=>SYMPTOMS.find(s=>s.id===id)?.emoji||id).join(' ')}</div>`);
-  if(dd.note) items.push(`<div style="padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);margin-bottom:5px">📝 ${dd.note}</div>`);
-  const custom=dd.custom||{};
-  (state.customFields||[]).filter(f=>custom[f.id]!=null).forEach(f=>{
-    items.push(`<div style="padding:6px 10px;background:rgba(255,255,255,.6);border:1px solid var(--border);border-radius:10px;font-size:12px;color:var(--text2);margin-bottom:5px">🗂️ ${f.name}: <strong>${f.type==='check'?( custom[f.id]?'✅':'☐'):custom[f.id]}</strong></div>`);
-  });
-
-  cont.innerHTML = (items.length ? items.join('') : `<p style="color:var(--text3);font-size:12px;margin-bottom:10px">ยังไม่มีข้อมูลวันนี้</p>`) +
-    `<button onclick="goBackfill()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--rose),var(--plum-soft));border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;margin-top:4px">✏️ ${items.length?'แก้ไข':'บันทึก'}ข้อมูลวันนี้</button>`;
-}
-
-function goBackfill(){
-  const ds = backfillSelected || document.getElementById("backfill-date-input").value;
-  if(!ds){toast("⚠️ กรุณาเลือกวันก่อน");return;}
-  openModal(ds);
-}
-
-// ════════════════════ INIT ════════════════════
-function init(){
-  loadLocal();
-  if(!state.cycles.includes("2026-06-02")){state.cycles=[...state.cycles,"2026-06-02"].sort();saveLocal();}
-  const url=getApiUrl();
-  if(url)document.getElementById("api-url-input").value=url;
-  renderAll();renderTips();spawnPetals();
-}
+function renderCFPage(){const f=state.customFields||[];document.getElementById("cf-list").innerHTML=f.length===0?`<p style="color:var(--txt3);font-size:13px;margin-bottom:10px">ยังไม่มี field</p>`:f.map((cf,i)=>`<div class="cf-manage-row"><input value="${cf.name}" oninput="updateCFName(${i},this.value)" placeholder="ชื่อ field"/><select class="cf-type-sel" onchange="updateCFType(${i},this.value)"><option value="text" ${cf.type==="text"?"selected":""}>✏️ ข้อความ</option><option value="number" ${cf.type==="number"?"selected":""}>🔢 ตัวเลข</option><option value="check" ${cf.type==="check"?"selected":""}>✅ เช็ค</option></select><button class="cf-del-btn" onclick="delCF(${i})">✕</button></div>`).join("");const days=[];for(let i=13;i>=0;i--)days.push(fmtDate(addDays(today(),-i)));const items=days.filter(d=>Object.keys(state.dayData[d]?.custom||{}).length>0).reverse().map(d=>{const c=state.dayData[d]?.custom||{};const vals=f.filter(cf=>c[cf.id]!=null).map(cf=>cf.type==="check"?`${cf.name}: ${c[cf.id]?"✅":"☐"}`:`${cf.name}: ${c[cf.id]}`).join(" · ");return vals?`<div class="bf-preview-item"><span style="color:var(--rose);font-weight:600">${d}</span> — ${vals}</div>`:""}).filter(Boolean).join("");document.getElementById("cf-history").innerHTML=items||`<p style="color:var(--txt3);font-size:13px">ยังไม่มีข้อมูลใน 14 วัน</p>`;}
+function addCF(){if(!state.customFields)state.customFields=[];state.customFields.push({id:"cf_"+Date.now(),name:"Field ใหม่",type:"text"});saveLocal();renderCFPage();}
+function updateCFName(i,n){state.customFields[i].name=n;saveLocal();}
+function updateCFType(i,t){state.customFields[i].type=t;saveLocal();}
+function delCF(i){state.customFields.splice(i,1);saveLocal();renderCFPage();toast("🗑️ ลบแล้ว");}
+function renderModalCF(ds){const f=state.customFields||[];if(!f.length){document.getElementById("modal-custom-fields").innerHTML="";return;}const c=state.dayData[ds]?.custom||{};document.getElementById("modal-custom-fields").innerHTML=`<div style="border-top:1px solid var(--bdr);padding-top:12px"><label class="modal-label">🗂️ บันทึกพิเศษ</label>${f.map(cf=>{const v=c[cf.id];if(cf.type==="check")return`<div style="margin-bottom:8px"><button class="cf-check-btn${v?" checked":""}" onclick="this.classList.toggle('checked');this.querySelector('.cf-check-icon').textContent=this.classList.contains('checked')?'✓':'';" id="cfc-${cf.id}"><div class="cf-check-icon">${v?"✓":""}</div>${cf.name}</button></div>`;if(cf.type==="number")return`<div class="cf-field-wrap"><label class="cf-field-label">${cf.name}</label><input type="number" class="cf-input" id="cfv-${cf.id}" value="${v??""}" step="0.1"/></div>`;return`<div class="cf-field-wrap"><label class="cf-field-label">${cf.name}</label><input type="text" class="cf-input" id="cfv-${cf.id}" value="${v??""}" placeholder="พิมพ์..."/></div>`;}).join("")}</div>`;}
+function collectCFValues(){const f=state.customFields||[];const r={};f.forEach(cf=>{if(cf.type==="check"){const b=document.getElementById("cfc-"+cf.id);if(b)r[cf.id]=b.classList.contains("checked");}else{const inp=document.getElementById("cfv-"+cf.id);if(inp&&inp.value.trim()!=="")r[cf.id]=cf.type==="number"?parseFloat(inp.value):inp.value.trim();}});return r;}
+function renderBackfill(){const t=today();const fm=computeFertility();const days=[];for(let i=1;i<=30;i++)days.push(fmtDate(addDays(t,-i)));document.getElementById("bq-days").innerHTML=days.slice(0,14).map(d=>{const dt=parseD(d);const type=fm[d];const cfg=type?TYPE_CONFIG[type]:null;const hasPeriod=state.cycles.includes(d);const hasData=Object.keys(state.dayData[d]||{}).length>0;return`<button class="bq-btn${bfSelected===d?" selected":""}" style="${cfg?`border-color:${cfg.bg};color:${cfg.bg}`:""}" onclick="selectBF('${d}')">${hasPeriod?"🌹 ":""}${hasData?"✦ ":""}${DAYS_FULL[dt.getDay()]} ${dt.getDate()}/${dt.getMonth()+1}</button>`;}).join("");const inp=document.getElementById("bf-date-input");inp.max=fmtDate(addDays(t,-1));inp.min=fmtDate(addDays(t,-365));if(bfSelected){inp.value=bfSelected;renderBFPreview(bfSelected);}else document.getElementById("bf-preview").style.display="none";}
+function selectBF(ds){bfSelected=ds;document.getElementById("bf-date-input").value=ds;renderBackfill();renderBFPreview(ds);}
+function renderBFPreview(ds){const dd=state.dayData[ds]||{};const fm=computeFertility();const type=fm[ds];const cfg=type?TYPE_CONFIG[type]:null;const dt=parseD(ds);const wrap=document.getElementById("bf-preview");wrap.style.display="block";document.getElementById("bf-preview-title").innerHTML=`${dt.getDate()} ${MONTHS_S[dt.getMonth()]} ${dt.getFullYear()} ${cfg?`<span style="background:${cfg.bg};color:#fff;border-radius:8px;padding:1px 8px;font-size:11px;margin-left:4px">${cfg.emoji}</span>`:""}`;const items=[];if(state.cycles.includes(ds))items.push(`<div class="bf-preview-item" style="color:#fb7185;font-weight:600">🌹 วันเริ่มประจำเดือน</div>`);if(dd.bbt)items.push(`<div class="bf-preview-item">🌡️ BBT: <strong>${dd.bbt}°C</strong></div>`);if(dd.weight)items.push(`<div class="bf-preview-item">⚖️ น้ำหนัก: <strong>${dd.weight} kg</strong></div>`);if(dd.lh)items.push(`<div class="bf-preview-item">🧪 LH: <strong>${dd.lh==="peak"?"⭐ สูงสุด":dd.lh==="positive"?"✅ บวก":"ลบ"}</strong></div>`);if((dd.symptoms||[]).length)items.push(`<div class="bf-preview-item">😊 ${dd.symptoms.map(id=>SYMPTOMS.find(s=>s.id===id)?.emoji).join(" ")}</div>`);if(dd.note)items.push(`<div class="bf-preview-item">📝 ${dd.note}</div>`);document.getElementById("bf-preview-content").innerHTML=(items.length?items.join(""):(`<p style="color:var(--txt3);font-size:12px;margin-bottom:8px">ยังไม่มีข้อมูล</p>`))+`<button onclick="goBF()" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--rose),var(--plum-s));border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;margin-top:6px">✏️ ${items.length?"แก้ไข":"บันทึก"}ข้อมูล</button>`;}
+function goBF(){const ds=bfSelected||document.getElementById("bf-date-input").value;if(!ds){toast("⚠️ กรุณาเลือกวันก่อน");return;}openModal(ds);}
+function exportCSV(){const rows=[["วันที่","ประเภท","BBT(°C)","น้ำหนัก(kg)","LH","อาการ","วันเริ่มประจำเดือน","หมายเหตุ"]];const fm=computeFertility();const dates=[...new Set([...Object.keys(state.dayData),...state.cycles])].sort();dates.forEach(d=>{const dd=state.dayData[d]||{};rows.push([d,fm[d]||"",dd.bbt||"",dd.weight||"",dd.lh||"",(dd.symptoms||[]).join("|"),state.cycles.includes(d)?"✓":"",dd.note||""]);});const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`bloom-${ts()}.csv`;a.click();toast("📥 Export CSV เสร็จแล้ว");}
+function exportPDF(){const fm=computeFertility();const avg=getAvgCycle();const sorted=[...state.cycles].sort();const w=window.open("","_blank");w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Bloom Fertility Report</title><style>body{font-family:sans-serif;padding:24px;color:#4a1942;max-width:600px;margin:0 auto;}h1{color:#f472b6;}h2{color:#9d4e8c;font-size:15px;margin-top:20px;border-bottom:1px solid #fbcfe8;padding-bottom:6px;}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}th{background:#fce7f3;padding:6px 8px;text-align:left;color:#9d4e8c;}td{padding:5px 8px;border-bottom:1px solid #fce7f3;}.badge{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;color:#fff;background:#fb7185;}@media print{button{display:none;}}</style></head><body><h1>🌸 Bloom — Fertility Report</h1><p style="color:#c084a8;font-size:12px">สร้างเมื่อ ${new Date().toLocaleString("th-TH")} | รอบเดือนเฉลี่ย ${avg} วัน | บันทึก ${sorted.length} รอบ</p><h2>📋 ประวัติรอบเดือน</h2><table><tr><th>วันเริ่ม</th><th>ความยาวรอบ</th></tr>${sorted.reverse().map((d,i,arr)=>{const prev=arr[i+1];const diff=prev?diffDays(parseD(prev),parseD(d)):null;return`<tr><td>${d}</td><td>${diff?diff+" วัน":"-"}</td></tr>`;}).join("")}</table><h2>🌡️ ข้อมูลรายวัน</h2><table><tr><th>วันที่</th><th>สถานะ</th><th>BBT</th><th>น้ำหนัก</th><th>LH</th><th>อาการ</th></tr>${Object.entries(state.dayData).sort(([a],[b])=>b.localeCompare(a)).slice(0,90).map(([d,v])=>{const t2=fm[d];return`<tr><td>${d}</td><td>${t2?`<span class="badge">${TYPE_CONFIG[t2]?.emoji||""} ${TYPE_CONFIG[t2]?.label||t2}</span>`:"-"}</td><td>${v.bbt?v.bbt+"°C":"-"}</td><td>${v.weight?v.weight+"kg":"-"}</td><td>${v.lh||"-"}</td><td>${(v.symptoms||[]).map(id=>SYMPTOMS.find(s=>s.id===id)?.emoji).join("")||"-"}</td></tr>`;}).join("")}</table><p style="margin-top:24px;font-size:10px;color:#c084a8">⚠️ ข้อมูลนี้เป็นการบันทึกส่วนตัว ไม่ใช่เอกสารทางการแพทย์</p><button onclick="window.print()" style="margin-top:12px;padding:10px 20px;background:#f472b6;border:none;border-radius:10px;color:#fff;cursor:pointer;font-size:14px">🖨️ พิมพ์ / บันทึก PDF</button></body></html>`);w.document.close();}
+function renderTips(){document.getElementById("page-tips").innerHTML=[{emoji:"⭐",title:"วันไข่ตก — โอกาสสูงสุด",color:"#f59e0b",list:["มีเพศสัมพันธ์วันไข่ตก และ 1-2 วันก่อน","ไข่มีชีวิต 12-24 ชม. อสุจิมีชีวิต 3-5 วัน","มูกใสยืดได้คล้ายไข่ขาวดิบ = ใกล้ไข่ตก","BBT สูงขึ้น ~0.2°C หลังไข่ตก"]},{emoji:"🌡️",title:"วัด BBT ให้ถูกต้อง",color:"#e879f9",list:["วัดทันทีหลังตื่น ก่อนลุกจากเตียง","ใช้เวลาเดิมทุกวัน ± 30 นาที","นอนต่อเนื่องอย่างน้อย 3-4 ชม.","บันทึกทุกวันเพื่อเห็น pattern ชัดเจน"]},{emoji:"🧪",title:"LH Test",color:"#34d399",list:["ทดสอบช่วงบ่าย 14.00-16.00 น.","เริ่มทดสอบประมาณวันที่ 10-12 ของรอบ","ไข่ตกประมาณ 12-36 ชม. หลัง LH บวก"]},{emoji:"💊",title:"โภชนาการสำคัญ",color:"#a78bfa",list:["โฟเลต 400 mcg/วัน — สำคัญมากก่อนตั้งครรภ์","ธาตุเหล็ก 27 mg/วัน","วิตามิน D และ Omega-3","หลีกเลี่ยงแอลกอฮอล์ บุหรี่ คาเฟอีนเกิน 200mg"]},{emoji:"🥗",title:"ไลฟ์สไตล์",color:"#fb7185",list:["ควบคุม BMI 18.5-24.9","ออกกำลังกายสม่ำเสมอ ไม่หนักเกินไป","นอนหลับ 7-8 ชม./คืน","ลดความเครียด — ส่งผลต่อรอบเดือน"]},{emoji:"🏥",title:"เมื่อไรควรพบแพทย์",color:"#64748b",list:["พยายาม > 12 เดือน (อายุ < 35 ปี)","พยายาม > 6 เดือน (อายุ ≥ 35 ปี)","รอบเดือนผิดปกติ < 21 หรือ > 35 วัน"]}].map(({emoji,title,color,list})=>`<div class="tip-card" style="border-color:${color}28"><div class="tip-title" style="color:${color}">${emoji} ${title}</div><ul>${list.map(t=>`<li>${t}</li>`).join("")}</ul></div>`).join("")+`<div class="disclaimer">⚠️ ข้อมูลนี้เป็นเพียงการศึกษาเบื้องต้น ไม่ใช่คำแนะนำทางการแพทย์</div>`;}
+function spawnPetals(){const p=["🌸","🌺","🌼","💮","🪷"];for(let i=0;i<6;i++){const el=document.createElement("div");el.className="petal";el.textContent=p[Math.floor(Math.random()*p.length)];el.style.cssText=`left:${Math.random()*100}vw;font-size:${10+Math.random()*12}px;animation-duration:${14+Math.random()*18}s;animation-delay:${Math.random()*20}s;`;document.body.appendChild(el);}}
+function init(){loadLocal();if(!state.cycles.includes("2026-06-02")){state.cycles=[...state.cycles,"2026-06-02"].sort();saveLocal();}const url=getApiUrl();if(url)document.getElementById("api-url-input").value=url;applyDark(state.settings?.darkMode||false);checkPin();renderAll();renderTips();spawnPetals();scheduleNotifications();}
 window.addEventListener("load",init);
 </script>
 </body>
