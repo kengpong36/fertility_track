@@ -273,6 +273,7 @@ canvas{width:100%;height:100%;}
       <button class="tab" onclick="switchTab('pregtest')" id="tab-pregtest">🤰</button>
       <button class="tab" onclick="switchTab('backfill')" id="tab-backfill">🕐</button>
       <button class="tab" onclick="switchTab('custom')" id="tab-custom">🗂️</button>
+      <button class="tab" onclick="switchTab('sex')" id="tab-sex">💕</button>
       <button class="tab" onclick="switchTab('tips')" id="tab-tips">💡</button>
       <button class="tab" onclick="switchTab('setup')" id="tab-setup">⚙️</button>
     </div>
@@ -345,6 +346,48 @@ canvas{width:100%;height:100%;}
         <button class="cf-add-btn" onclick="addCF()">+ เพิ่ม Field ใหม่</button>
       </div>
       <div class="card"><div class="card-title">📋 ประวัติ 14 วัน</div><div id="cf-history"></div></div>
+    </div>
+
+
+    <div id="page-sex" style="display:none">
+      <div class="card">
+        <div class="card-title">💕 บันทึกเพศสัมพันธ์</div>
+        <p style="font-size:12px;color:var(--txt3);margin-bottom:12px;line-height:1.7">บันทึกจำนวนครั้งในแต่ละวัน เพื่อเพิ่มโอกาสมีลูก</p>
+        <div id="sex-today-input" style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <button onclick="decreaseSexToday()" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--bdr);background:var(--surf2);color:var(--rose);font-size:18px;font-weight:700">−</button>
+          <div style="flex:1;text-align:center">
+            <div id="sex-today-count" style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--rose)">0</div>
+            <div style="font-size:10px;color:var(--txt3)">ครั้งวันนี้</div>
+          </div>
+          <button onclick="increaseSexToday()" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--bdr);background:var(--surf2);color:var(--rose);font-size:18px;font-weight:700">+</button>
+        </div>
+        <button onclick="saveSexToday()" style="width:100%;padding:12px;background:linear-gradient(135deg,var(--rose),var(--plum-s));border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:700;margin-bottom:8px">💾 บันทึกวันนี้</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 สถิติการมีเพศสัมพันธ์</div>
+        <div class="stat-grid">
+          <div class="stat-cell"><div class="sv" style="color:#f472b6" id="sex-total-days">0</div><div class="sl">วันที่มีเพศสัมพันธ์</div></div>
+          <div class="stat-cell"><div class="sv" style="color:#f472b6" id="sex-total-count">0</div><div class="sl">รวมครั้งทั้งหมด</div></div>
+          <div class="stat-cell"><div class="sv" style="color:#34d399" id="sex-fertile-count">0</div><div class="sl">ในช่วงเจริญพันธุ์</div></div>
+          <div class="stat-cell"><div class="sv" style="color:#f59e0b" id="sex-best-day">-</div><div class="sl">วันที่เหมาะสุด</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📈 กราฟความถี่เพศสัมพันธ์</div>
+        <div id="sex-chart-wrap" style="height:140px;position:relative"><canvas id="sex-chart"></canvas></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🎯 ช่วงเวลาที่เหมาะสุด</div>
+        <div id="sex-best-info"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 ประวัติ 30 วัน</div>
+        <div id="sex-history"></div>
+      </div>
     </div>
 
     <div id="page-tips" style="display:none"></div>
@@ -429,8 +472,9 @@ async function syncNow(){const url=getApiUrl();if(!url){toast("⚙️ กรุ�
 async function autoSync(){try{const url=getApiUrl();if(url)await fetch(url,{method:"POST",body:JSON.stringify({action:"sync",payload:state})});}catch(_){}}
 function computeFertility(){const map={};const mark=(start,days,type)=>{for(let i=0;i<days;i++){const k=fmtDate(addDays(start,i));if(type==="ovulation"||!map[k])map[k]=type;}};const sorted=[...state.cycles].sort();if(!sorted.length)return map;let cl=state.cycleLen;if(sorted.length>=2){const diffs=[];for(let i=1;i<sorted.length;i++)diffs.push(diffDays(parseD(sorted[i-1]),parseD(sorted[i])));cl=Math.max(21,Math.min(35,Math.round(diffs.reduce((a,b)=>a+b,0)/diffs.length)));}const last=parseD(sorted[sorted.length-1]);for(let o=-2;o<=6;o++){const cs=addDays(last,o*cl);mark(cs,state.periodLen,"period");const ov=addDays(cs,cl-14);mark(addDays(ov,-5),5,"fertile");mark(ov,1,"ovulation");mark(addDays(ov,1),cl-14-6,"luteal");}sorted.forEach(ds=>{for(let i=0;i<state.periodLen;i++)map[fmtDate(addDays(parseD(ds),i))]="period";});return map;}
 function getAvgCycle(){if(state.cycles.length<2)return state.cycleLen;const s=[...state.cycles].sort();const d=[];for(let i=1;i<s.length;i++)d.push(diffDays(parseD(s[i-1]),parseD(s[i])));return Math.round(d.reduce((a,b)=>a+b,0)/d.length);}
-const ALL_TABS=["calendar","bbt","stats","reminder","vitamin","pregtest","backfill","custom","tips","setup"];
-function switchTab(tab){ALL_TABS.forEach(t=>{document.getElementById("page-"+t).style.display=t===tab?"block":"none";document.getElementById("tab-"+t).classList.toggle("active",t===tab);});currentTab=tab;if(tab==="bbt")renderBBT();if(tab==="stats")renderStats();if(tab==="tips")renderTips();if(tab==="reminder")renderReminders();if(tab==="vitamin")renderVitamins();if(tab==="pregtest")renderPregTests();if(tab==="backfill")renderBackfill();if(tab==="custom")renderCFPage();}
+const ALL_TABS=["calendar","bbt","stats","reminder","vitamin","pregtest","backfill","custom","sex","tips","setup"];
+function switchTab(tab){ALL_TABS.forEach(t=>{document.getElementById("page-"+t).style.display=t===tab?"block":"none";document.getElementById("tab-"+t).classList.toggle("active",t===tab);});currentTab=tab;if(tab==="bbt")renderBBT();if(tab==="stats")renderStats();if(tab==="tips")renderTips();if(tab==="reminder")renderReminders();if(tab==="vitamin")renderVitamins();if(tab==="pregtest")renderPregTests();if(tab==="backfill")renderBackfill();if(tab==="custom")renderCFPage();
+  if(tab==="sex")renderSex();}
 function renderAll(){const fm=computeFertility();renderTodayWidget(fm);renderCountdown(fm);renderFertileBanner(fm);renderLegend();renderCalendar(fm);updateSliders();}
 function renderTodayWidget(fm){const type=fm[ts()];const cfg=type?TYPE_CONFIG[type]:null;const t=today();const sorted=[...state.cycles].sort();const cl=getAvgCycle();const el=document.getElementById("today-widget");if(!cfg&&!sorted.length){el.style.display="none";return;}el.style.display="flex";let dayInCycle="-";if(sorted.length){const last=parseD(sorted[sorted.length-1]);dayInCycle=diffDays(last,t)+1;}el.style.background=cfg?`linear-gradient(135deg,${cfg.bg}18,${cfg.bg}08)`:"rgba(255,255,255,.5)";el.style.border=`1px solid ${cfg?cfg.bg+"33":"var(--bdr)"}`;el.innerHTML=`<div class="tw-info"><div class="tw-type" style="color:${cfg?cfg.bg:"var(--rose)"}">${cfg?cfg.emoji+" "+cfg.label:"🌸 ติดตามรอบเดือน"}</div><div class="tw-date">${t.getDate()} ${MONTHS_S[t.getMonth()]} ${t.getFullYear()}</div></div><div class="tw-stat"><div class="tw-stat-val" style="color:${cfg?cfg.bg:"var(--rose)"}">${dayInCycle}</div><div class="tw-stat-lbl">วันที่ในรอบ / ${cl}</div></div>`;}
 function renderCountdown(fm){const t=today();const sorted=[...state.cycles].sort();const cl=getAvgCycle();if(!sorted.length){document.getElementById("cycle-countdown").innerHTML="";return;}const last=parseD(sorted[sorted.length-1]);const dayInCycle=diffDays(last,t)+1;const toNext=diffDays(t,addDays(last,cl));const lateBy=toNext<0?Math.abs(toNext):0;const ovOffset=cl-14;const daysSinceOv=dayInCycle-ovOffset;const daysToOv=ovOffset-dayInCycle;let ovText=daysSinceOv>=0?String(daysSinceOv):String(Math.abs(daysToOv+1));let ovUnit=daysSinceOv>=0?"วันที่แล้ว":"วันข้างหน้า";document.getElementById("cycle-countdown").innerHTML=`<div class="card" style="background:linear-gradient(135deg,rgba(244,114,182,.1),rgba(167,139,250,.1));border-color:rgba(244,114,182,.2);margin-bottom:10px"><div class="card-title">🌸 รอบปัจจุบัน</div><div class="cycle-grid"><div class="cyc-cell"><div class="cyc-val" style="color:#e879f9">${dayInCycle}</div><div class="cyc-lbl">วันที่ในรอบ / ${cl}</div></div><div class="cyc-cell"><div class="cyc-val" style="color:${lateBy>2?"#34d399":lateBy>0?"#f59e0b":"#a78bfa"}">${lateBy>0?lateBy:toNext}</div><div class="cyc-lbl">${lateBy>0?"มาช้า (วัน) ⚠️":"ถัดไปใน (วัน)"}</div></div><div class="cyc-cell"><div class="cyc-val" style="color:#f59e0b">${ovText}</div><div class="cyc-lbl">ไข่ตก<br>${ovUnit}</div></div></div>${lateBy>2?`<div class="late-pill">🌸 ประจำเดือนมาช้า ${lateBy} วัน — ลองทดสอบการตั้งครรภ์ได้แล้ว!</div>`:""}</div>`;}
